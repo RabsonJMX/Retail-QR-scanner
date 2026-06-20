@@ -5,25 +5,27 @@ import { fileURLToPath } from "node:url";
 const root = fileURLToPath(new URL("..", import.meta.url));
 const read = (file) => fs.readFile(path.join(root, file), "utf8");
 
-const [html, styles, vendor, dbSource, rulesSource, appSource, catalogText] = await Promise.all([
+const [html, styles, vendor, dbSource, rulesSource, incentiveSource, appSource, catalogText] = await Promise.all([
   read("index.html"),
   read("styles.css"),
   read("vendor/html5-qrcode.min.js"),
   read("db.js"),
   read("qr-rules.js"),
+  read("incentive-rules.js"),
   read("app.js"),
   read("data/catalog.json"),
 ]);
 
 const db = dbSource.replaceAll("export ", "");
 const rules = rulesSource.replaceAll("export ", "");
+const incentive = incentiveSource.replaceAll("export ", "");
 const app = appSource
   .replace(/^import .*?;\r?\n/gm, "")
   .replace(
     '[db, catalog] = await Promise.all([openDatabase(), fetch("./data/catalog.json").then((response) => response.json())]);',
     "db = await openDatabase(); catalog = EMBEDDED_CATALOG;",
   );
-const script = `const EMBEDDED_CATALOG = ${catalogText.trim()};\n${db}\n${rules}\n${app}`;
+const script = `const EMBEDDED_CATALOG = ${catalogText.trim()};\n${db}\n${rules}\n${incentive}\n${app}`;
 
 const output = html
   .replace('    <link rel="stylesheet" href="./styles.css" />', `    <style>\n${styles}\n    </style>`)

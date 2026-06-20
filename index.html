@@ -10,7 +10,11 @@
   <body>
     <header class="topbar">
       <div class="brand"><span class="brand-mark">P</span><span>Scan</span></div>
-      <button id="export-button" class="quiet-button" type="button">导出记录</button>
+      <div class="topbar-actions">
+        <button id="language-button" class="quiet-button language-button" type="button" aria-label="Switch to English">EN</button>
+        <button id="guide-button" class="quiet-button guide-trigger" type="button" aria-controls="guide-sidebar" aria-expanded="false">操作指南</button>
+        <button id="export-button" class="quiet-button" type="button">导出记录</button>
+      </div>
     </header>
 
     <main class="shell">
@@ -44,6 +48,21 @@
           <article class="stat card"><span>有效扫码</span><strong id="total-count">0</strong><small>盒</small></article>
           <article class="stat card"><span>今日新增</span><strong id="today-count">0</strong><small>盒</small></article>
           <article class="stat card"><span>产品种类</span><strong id="product-count">0</strong><small>类</small></article>
+        </section>
+
+        <section class="batch-card card">
+          <div class="section-heading">
+            <div><span class="label">积分与返利</span><h2>当前批次</h2></div>
+            <span id="batch-status" class="status-pill">等待扫码</span>
+          </div>
+          <div class="batch-grid">
+            <div><span>本批积分</span><strong id="batch-points">0</strong><small>分（每盒 1 分）</small></div>
+            <div><span>8000 KIT</span><strong id="batch-kit-count">0</strong><small>盒 × £22</small></div>
+            <div><span>8000 POD</span><strong id="batch-pod-count">0</strong><small>盒 × £15.50</small></div>
+            <div class="rebate-total"><span>20% 返利</span><strong id="batch-rebate">£0.00</strong><small id="batch-sales">计价销售额 £0.00</small></div>
+          </div>
+          <button id="submit-batch-button" class="primary-button full" type="button" disabled>提交本批并计算返利</button>
+          <p id="last-batch-summary" class="batch-summary" hidden></p>
         </section>
 
         <section class="scanner-card card">
@@ -95,12 +114,49 @@
         <div class="dialog-heading"><div><span class="label">门店档案</span><h2 id="dialog-title">新建门店</h2></div><button class="close-button" value="cancel" aria-label="关闭">×</button></div>
         <input id="store-id" type="hidden" />
         <label>门店名称 *<input id="store-name-input" required maxlength="80" placeholder="例如：Soho Vape Store" /></label>
-        <label>门店编号<input id="store-code-input" maxlength="40" placeholder="例如：UK-001" /></label>
-        <label>地址<input id="store-address-input" maxlength="160" placeholder="门店地址" /></label>
-        <label>联系人<input id="store-contact-input" maxlength="80" placeholder="姓名或电话" /></label>
+        <label>邮编（选填）<input id="store-postcode-input" maxlength="8" autocomplete="postal-code" placeholder="例如：SW1A 1AA" aria-describedby="postcode-error" /></label>
+        <p id="postcode-error" class="field-error" role="alert" hidden>请输入有效的英国邮编，例如 SW1A 1AA。</p>
+        <label>决策人名称（选填）<input id="store-decision-maker-input" maxlength="80" placeholder="姓名" /></label>
+        <label>联系方式（选填）<input id="store-contact-input" maxlength="100" autocomplete="tel" placeholder="电话、WhatsApp 或邮箱" /></label>
         <div class="dialog-actions"><button class="quiet-button" value="cancel" type="button" id="cancel-store">取消</button><button class="primary-button" type="submit">保存档案</button></div>
       </form>
     </dialog>
+
+    <dialog id="store-confirm-dialog">
+      <form method="dialog">
+        <div class="dialog-heading"><div><span class="label">开始扫码前确认</span><h2>店铺信息是否正确？</h2></div></div>
+        <div class="confirm-store-card"><strong id="confirm-store-name"></strong><span id="confirm-store-postcode"></span></div>
+        <p class="confirm-hint">本次扫码将计入以上店铺。</p>
+        <div class="dialog-actions"><button class="quiet-button" value="cancel">取消</button><button class="primary-button" value="confirm">确认并开始扫码</button></div>
+      </form>
+    </dialog>
+
+    <div id="guide-overlay" class="guide-overlay" aria-hidden="true"></div>
+    <aside id="guide-sidebar" class="guide-sidebar" aria-hidden="true" aria-labelledby="guide-title">
+      <div class="guide-header">
+        <div><span class="label">快速上手</span><h2 id="guide-title">操作指南</h2></div>
+        <button id="guide-close" class="guide-close" type="button" aria-label="关闭操作指南">×</button>
+      </div>
+      <div class="guide-content">
+        <p class="guide-intro">按照以下步骤完成建店、扫码和结果分享。所有扫码数据只保存在当前手机浏览器。</p>
+        <ol class="guide-steps">
+          <li><span class="step-number">1</span><div><strong>创建店铺</strong><p>填写店铺名称、英国邮编、决策人名称和联系方式；邮编会自动校验和格式化。</p></div></li>
+          <li><span class="step-number">2</span><div><strong>选择当前门店</strong><p>扫码前确认顶部显示的是正确门店，所有有效扫码会记入该门店。</p></div></li>
+          <li><span class="step-number">3</span><div><strong>允许相机并确认店铺</strong><p>允许相机权限后，核对弹窗中的店铺名称和邮编，点击确认后才会开始扫码。</p></div></li>
+          <li><span class="step-number">4</span><div><strong>对准二维码</strong><p>让完整二维码位于扫描框内并保持稳定。无法实时扫描时，点击“拍照识别”。</p></div></li>
+          <li><span class="step-number">5</span><div><strong>查看识别结果</strong><div class="result-guide"><span class="result-success">计数成功</span><span>有效商品 +1</span><span class="result-duplicate">重复扫码</span><span>不会重复计数</span><span class="result-error">无效二维码</span><span>编码不符合规则</span></div></div></li>
+          <li><span class="step-number">6</span><div><strong>提交批次</strong><p>每个有效盒码积 1 分。提交后系统按 8000 KIT £22、8000 POD £15.50 自动计算销售额及 20% 返利。</p></div></li>
+        </ol>
+        <section class="guide-note">
+          <h3>相机无法开启？</h3>
+          <p>请确认通过 HTTPS 网站打开，并在手机的浏览器网站设置中允许相机。关闭其他正在使用相机的应用后重试。</p>
+        </section>
+        <section class="guide-note">
+          <h3>数据保存在哪里？</h3>
+          <p>门店和扫码记录保存在当前浏览器。清除浏览器数据或更换手机后不会自动同步，请定期导出记录。</p>
+        </section>
+      </div>
+    </aside>
 
     <script src="./vendor/html5-qrcode.min.js"></script>
     <script type="module" src="./app.js"></script>

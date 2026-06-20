@@ -1,5 +1,5 @@
 const DB_NAME = "pixl-retail-scan";
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 function requestResult(request) {
   return new Promise((resolve, reject) => {
@@ -12,11 +12,24 @@ export async function openDatabase() {
   const request = indexedDB.open(DB_NAME, DB_VERSION);
   request.onupgradeneeded = () => {
     const db = request.result;
-    const stores = db.createObjectStore("stores", { keyPath: "id" });
-    stores.createIndex("name", "name");
-    const scans = db.createObjectStore("scans", { keyPath: "code" });
-    scans.createIndex("storeId", "storeId");
-    scans.createIndex("scannedAt", "scannedAt");
+    if (!db.objectStoreNames.contains("stores")) {
+      const stores = db.createObjectStore("stores", { keyPath: "id" });
+      stores.createIndex("name", "name");
+    }
+    let scans;
+    if (!db.objectStoreNames.contains("scans")) {
+      scans = db.createObjectStore("scans", { keyPath: "code" });
+      scans.createIndex("storeId", "storeId");
+      scans.createIndex("scannedAt", "scannedAt");
+    } else {
+      scans = request.transaction.objectStore("scans");
+    }
+    if (!scans.indexNames.contains("batchId")) scans.createIndex("batchId", "batchId");
+    if (!db.objectStoreNames.contains("batches")) {
+      const batches = db.createObjectStore("batches", { keyPath: "id" });
+      batches.createIndex("storeId", "storeId");
+      batches.createIndex("submittedAt", "submittedAt");
+    }
   };
   return requestResult(request);
 }
