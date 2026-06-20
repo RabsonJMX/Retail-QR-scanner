@@ -8,6 +8,7 @@ const elements = {
   addressInput: $("#store-address-input"), contactInput: $("#store-contact-input"), dialogTitle: $("#dialog-title"),
   total: $("#total-count"), today: $("#today-count"), products: $("#product-count"), storeName: $("#store-name"),
   storeMeta: $("#store-meta"), scanList: $("#scan-list"), noRecords: $("#no-records"), reader: $("#reader"),
+  copyButton: $("#copy-store-button"), shareButton: $("#share-store-button"),
   cameraButton: $("#camera-button"), cameraStatus: $("#camera-status"), cameraPlaceholder: $("#camera-placeholder"),
   captureButton: $("#capture-button"), imageInput: $("#image-input"),
   feedback: $("#scan-feedback"), manualForm: $("#manual-form"), manualCode: $("#manual-code"),
@@ -20,6 +21,7 @@ let currentStoreId = localStorage.getItem("pixl-current-store") || "";
 let scanner = null;
 let scanning = false;
 let lastDetected = { code: "", at: 0 };
+let currentReportText = "";
 
 async function init() {
   [db, catalog] = await Promise.all([openDatabase(), fetch("./data/catalog.json").then((response) => response.json())]);
@@ -31,6 +33,8 @@ function bindEvents() {
   $("#new-store-button").addEventListener("click", () => openStoreDialog());
   $("#empty-new-store").addEventListener("click", () => openStoreDialog());
   $("#edit-store-button").addEventListener("click", editCurrentStore);
+  elements.copyButton.addEventListener("click", copyCurrentStore);
+  elements.shareButton.addEventListener("click", shareCurrentStore);
   $("#cancel-store").addEventListener("click", () => elements.dialog.close());
   elements.storeForm.addEventListener("submit", saveStore);
   elements.storeSelect.addEventListener("change", async () => {
@@ -110,6 +114,7 @@ async function renderCurrentStore() {
   elements.products.textContent = new Set(scans.map((scan) => scan.productCode)).size;
   elements.scanList.innerHTML = scans.slice(0, 100).map((scan) => `<tr><td>${formatDate(scan.scannedAt)}</td><td><strong>${escapeHtml(scan.productName)}</strong><small>${escapeHtml(scan.productCode)}</small></td><td>${escapeHtml(scan.flavorName)}</td><td>…${escapeHtml(scan.code.slice(-6))}</td></tr>`).join("");
   elements.noRecords.hidden = scans.length > 0;
+  currentReportText = createStoreReport(store, scans);
 }
 
 async function toggleCamera() {
@@ -224,6 +229,96 @@ async function handleCode(rawValue) {
     if (error.name === "ConstraintError") setFeedback("duplicate", "此二维码已经记录。", "重复扫码 · 未计数");
     else setFeedback("error", "记录保存失败，请重试。", "保存失败");
   }
+}
+
+function createStoreReport(store, scans) {
+  const todayKey = new Date().toLocaleDateString("en-CA");
+  const todayCount = scans.filter((scan) => new Date(scan.scannedAt).toLocaleDateString("en-CA") === todayKey).length;
+  const summary = new Map();
+  for (const scan of scans) {
+    const key = `${scan.productName} · ${scan.flavorName}`;
+    summary.set(key, (summary.get(key) || 0) + 1);
+  }
+  const productLines = [...summary.entries()]
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .map(([name, count]) => `- ${name}: ${count}盒`);
+  const recentLines = scans.slice(0, 20).map((scan) =>
+    `- ${formatShareDate(scan.scannedAt)} | ${scan.productName} · ${scan.flavorName} | 尾号…${scan.code.slice(-6)}`,
+  );
+  return [
+    "PIXL 门店扫码报告",
+    `生成时间：${new Date().toLocaleString("zh-CN")}`,
+    "",
+    `门店：${store.name}`,
+    store.code && `门店编号：${store.code}`,
+    store.address && `地址：${store.address}`,
+    store.contact && `联系人：${store.contact}`,
+    "",
+    `累计有效扫码：${scans.length}盒`,
+    `今日新增：${todayCount}盒`,
+    `产品种类：${new Set(scans.map((scan) => scan.productCode)).size}类`,
+    "",
+    "产品与口味统计：",
+    ...(productLines.length ? productLines : ["- 暂无扫码"]),
+    "",
+    "最近扫码（最多20条）：",
+    ...(recentLines.length ? recentLines : ["- 暂无扫码"]),
+  ].filter((line) => line !== "").join("\n").replace(/\n{3,}/g, "\n\n");
+}
+
+async function copyCurrentStore() {
+  if (!currentReportText) return;
+  await copyText(currentReportText);
+  flashActionButton(elements.copyButton, "已复制");
+}
+
+async function shareCurrentStore() {
+  if (!currentReportText) return;
+  const store = stores.find((item) => item.id === currentStoreId);
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: `${store?.name || "PIXL门店"}扫码报告`, text: currentReportText });
+      flashActionButton(elements.shareButton, "已转发");
+      return;
+    } catch (error) {
+      if (error?.name === "AbortError") return;
+    }
+  }
+  await copyText(currentReportText);
+  flashActionButton(elements.shareButton, "已复制");
+  window.location.href = `https://wa.me/?text=${encodeURIComponent(currentReportText)}`;
+}
+
+async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch (_) {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.setAttribute("readonly", "");
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    textarea.remove();
+  }
+}
+
+function flashActionButton(button, label) {
+  const original = button.textContent;
+  button.textContent = label;
+  button.classList.add("done");
+  setTimeout(() => {
+    button.textContent = original;
+    button.classList.remove("done");
+  }, 1500);
+}
+
+function formatShareDate(value) {
+  return new Intl.DateTimeFormat("zh-CN", {
+    month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit",
+  }).format(new Date(value));
 }
 
 async function exportRecords() {

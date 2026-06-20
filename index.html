@@ -21,11 +21,15 @@
       </section>
 
       <section class="store-panel card">
-        <div>
+        <div class="store-selector">
           <span class="label">当前门店</span>
           <select id="store-select" aria-label="选择门店"></select>
         </div>
-        <button id="new-store-button" class="secondary-button" type="button">+ 新建门店</button>
+        <div class="store-actions">
+          <button id="copy-store-button" class="action-button" type="button">复制</button>
+          <button id="share-store-button" class="action-button" type="button">转发</button>
+          <button id="new-store-button" class="secondary-button" type="button">+ 新建门店</button>
+        </div>
       </section>
 
       <section id="empty-state" class="empty-state card">

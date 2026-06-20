@@ -27,3 +27,5 @@
 ## 手机浏览器扫码
 
 实时扫码使用本地打包的 html5-qrcode 2.3.8（Apache-2.0），支持 Android Chrome/Firefox 及 iOS 15.1+ Safari/Chrome。相机必须通过 HTTPS 页面调用；若实时相机受限，可使用“拍照识别”。
+
+- 当前门店可一键复制报告，或通过手机系统分享面板转发到 WhatsApp、微信等应用。
