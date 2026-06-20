@@ -1,0 +1,1532 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#111827" />
+    <title>PIXL 门店扫码 - 单文件版</title>
+    <style>
+:root { color-scheme: light; --ink:#101828; --muted:#667085; --line:#e4e7ec; --paper:#fff; --wash:#f6f7f9; --lime:#c8ff38; --purple:#7347d8; --success:#087a52; --danger:#b42318; font-family: Inter, "Segoe UI", "Microsoft YaHei", sans-serif; }
+* { box-sizing:border-box; }
+body { margin:0; color:var(--ink); background:var(--wash); }
+button,input,select { font:inherit; }
+button { cursor:pointer; }
+.topbar { height:68px; padding:0 max(20px,calc((100vw - 1080px)/2)); display:flex; align-items:center; justify-content:space-between; background:#111827; color:white; }
+.brand { display:flex; align-items:center; gap:10px; font-weight:750; letter-spacing:.02em; }
+.brand-mark { display:grid; place-items:center; width:30px; height:30px; background:var(--lime); color:#111827; border-radius:8px; font-weight:900; }
+.shell { width:min(1080px,calc(100% - 32px)); margin:0 auto; padding:44px 0 72px; }
+.hero { max-width:660px; margin-bottom:30px; }
+.eyebrow,.label { display:block; margin:0 0 7px; color:var(--purple); font-size:12px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
+.hero h1 { margin:0 0 12px; font-size:clamp(34px,6vw,58px); line-height:1.05; letter-spacing:-.045em; }
+.hero p:last-child { margin:0; color:var(--muted); font-size:17px; line-height:1.65; }
+.card { background:var(--paper); border:1px solid var(--line); border-radius:18px; box-shadow:0 8px 28px rgba(16,24,40,.05); }
+.store-panel { padding:16px 18px; display:flex; align-items:end; justify-content:space-between; gap:20px; margin-bottom:18px; }
+.store-panel>div { flex:1; }
+select { width:100%; border:0; padding:2px 30px 2px 0; color:var(--ink); background:transparent; font-weight:750; font-size:18px; outline:none; }
+.primary-button,.secondary-button,.quiet-button { border:0; border-radius:10px; padding:12px 17px; font-weight:750; }
+.primary-button { color:#111827; background:var(--lime); }
+.secondary-button { color:white; background:#111827; }
+.quiet-button { color:inherit; background:rgba(255,255,255,.1); }
+.full { width:100%; margin-top:12px; padding:15px; }
+.empty-state { padding:64px 24px; text-align:center; }
+.empty-state h2 { margin:14px 0 6px; }.empty-state p { color:var(--muted); }.empty-icon { margin:auto; display:grid; place-items:center; width:58px; height:58px; border-radius:16px; background:#eee9fa; color:var(--purple); font-weight:800; }
+.stats-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:14px; }
+.stat { padding:22px; }.stat span { color:var(--muted); font-size:14px; }.stat strong { display:inline-block; margin:10px 5px 0 0; font-size:36px; letter-spacing:-.04em; }.stat small { color:var(--muted); }
+.scanner-card,.records-card { padding:24px; margin-bottom:14px; }
+.section-heading { display:flex; justify-content:space-between; align-items:center; gap:14px; margin-bottom:18px; }
+.section-heading h2 { margin:0; font-size:22px; }.status-pill { padding:7px 10px; border-radius:999px; color:var(--muted); background:#f2f4f7; font-size:12px; font-weight:750; }.status-pill.live { background:#e7f8ef; color:var(--success); }
+.camera-frame { position:relative; overflow:hidden; aspect-ratio:16/9; min-height:260px; border-radius:14px; background:#111827; }
+#camera { width:100%; height:100%; object-fit:cover; }
+.camera-placeholder { position:absolute; inset:0; display:grid; place-content:center; justify-items:center; color:#d0d5dd; text-align:center; }.camera-placeholder[hidden] { display:none; }.camera-icon { width:54px; height:40px; border:3px solid #98a2b3; border-radius:10px; position:relative; }.camera-icon:before { content:""; position:absolute; width:16px; height:16px; border:3px solid #98a2b3; border-radius:50%; left:16px; top:9px; }.camera-icon:after { content:""; position:absolute; width:20px; height:7px; background:#98a2b3; border-radius:5px 5px 0 0; left:14px; top:-9px; }
+.scan-window { pointer-events:none; position:absolute; width:min(58%,280px); aspect-ratio:1; top:50%; left:50%; transform:translate(-50%,-50%); border:2px solid rgba(255,255,255,.28); border-radius:18px; }.scan-window:before,.scan-window:after,.scan-window i:before,.scan-window i:after { content:""; position:absolute; width:32px; height:32px; border-color:var(--lime); border-style:solid; }.scan-window:before { top:-2px; left:-2px; border-width:4px 0 0 4px; border-radius:16px 0 0; }.scan-window:after { top:-2px; right:-2px; border-width:4px 4px 0 0; border-radius:0 16px 0 0; }.scan-window i:before { bottom:-2px; left:-2px; border-width:0 0 4px 4px; border-radius:0 0 0 16px; }.scan-window i:after { bottom:-2px; right:-2px; border-width:0 4px 4px 0; border-radius:0 0 16px; }
+.feedback { display:flex; justify-content:space-between; gap:10px; margin-top:12px; padding:13px 15px; border-radius:10px; font-size:14px; }.feedback span { color:inherit; opacity:.8; text-align:right; }.feedback.neutral { background:#f2f4f7; color:var(--muted); }.feedback.success { background:#e7f8ef; color:var(--success); }.feedback.error { background:#feeceb; color:var(--danger); }.feedback.duplicate { background:#fff4dc; color:#92400e; }
+.manual-entry { margin-top:13px; color:var(--muted); font-size:13px; }.manual-entry summary { cursor:pointer; }.manual-entry form { display:flex; gap:8px; margin-top:10px; }.manual-entry input { flex:1; min-width:0; border:1px solid var(--line); border-radius:10px; padding:12px; }
+.text-button,.close-button { border:0; color:var(--purple); background:transparent; font-weight:700; }.store-meta { margin:-8px 0 18px; color:var(--muted); font-size:14px; }
+.table-wrap { overflow-x:auto; } table { width:100%; border-collapse:collapse; font-size:14px; } th { color:var(--muted); font-size:12px; text-align:left; font-weight:650; } th,td { padding:13px 10px; border-bottom:1px solid #f0f1f3; white-space:nowrap; } td strong,td small { display:block; } td small { margin-top:3px; color:var(--muted); }.no-records { padding:28px; color:var(--muted); text-align:center; }
+dialog { width:min(520px,calc(100% - 28px)); padding:0; border:0; border-radius:18px; box-shadow:0 24px 70px rgba(16,24,40,.25); } dialog::backdrop { background:rgba(16,24,40,.6); backdrop-filter:blur(3px); } dialog form { padding:26px; }.dialog-heading { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; }.dialog-heading h2 { margin:0; }.close-button { color:var(--muted); font-size:28px; line-height:1; } dialog label { display:block; margin:13px 0; color:#344054; font-size:13px; font-weight:650; } dialog input { width:100%; margin-top:6px; padding:12px 13px; border:1px solid #d0d5dd; border-radius:9px; outline:none; } dialog input:focus { border-color:var(--purple); box-shadow:0 0 0 3px #eee9fa; }.dialog-actions { display:flex; justify-content:flex-end; gap:10px; margin-top:22px; }.dialog-actions .quiet-button { color:var(--muted); background:#f2f4f7; }.fatal { padding:80px 24px; text-align:center; }
+@media (max-width:680px) { .shell { width:min(100% - 22px,1080px); padding-top:28px; }.topbar { padding:0 14px; }.stats-grid { grid-template-columns:1fr 1fr 1fr; gap:8px; }.stat { padding:15px 12px; }.stat strong { font-size:27px; }.stat span { font-size:12px; }.scanner-card,.records-card { padding:16px; }.camera-frame { min-height:300px; aspect-ratio:3/4; }.store-panel { align-items:center; }.store-panel .secondary-button { padding:10px 12px; white-space:nowrap; }.feedback { flex-direction:column; }.feedback span { text-align:left; }.manual-entry form { flex-direction:column; } }
+
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">P</span><span>PIXL Scan</span></div>
+      <button id="export-button" class="quiet-button" type="button">导出记录</button>
+    </header>
+
+    <main class="shell">
+      <section class="hero">
+        <p class="eyebrow">RETAIL INCENTIVE</p>
+        <h1>每一盒，只计一次。</h1>
+        <p>选择门店后扫描产品二维码。有效商品自动入账，重复二维码不会增加计数。</p>
+      </section>
+
+      <section class="store-panel card">
+        <div>
+          <span class="label">当前门店</span>
+          <select id="store-select" aria-label="选择门店"></select>
+        </div>
+        <button id="new-store-button" class="secondary-button" type="button">+ 新建门店</button>
+      </section>
+
+      <section id="empty-state" class="empty-state card">
+        <div class="empty-icon">店</div>
+        <h2>先创建一家门店</h2>
+        <p>扫码结果会记入当前门店档案。</p>
+        <button id="empty-new-store" class="primary-button" type="button">创建门店档案</button>
+      </section>
+
+      <div id="workspace" hidden>
+        <section class="stats-grid">
+          <article class="stat card"><span>有效扫码</span><strong id="total-count">0</strong><small>盒</small></article>
+          <article class="stat card"><span>今日新增</span><strong id="today-count">0</strong><small>盒</small></article>
+          <article class="stat card"><span>产品种类</span><strong id="product-count">0</strong><small>类</small></article>
+        </section>
+
+        <section class="scanner-card card">
+          <div class="section-heading">
+            <div><span class="label">二维码扫描</span><h2 id="scanner-title">准备扫描</h2></div>
+            <span id="camera-status" class="status-pill">相机未启动</span>
+          </div>
+          <div class="camera-frame">
+            <video id="camera" playsinline muted></video>
+            <div class="scan-window" aria-hidden="true"><i></i></div>
+            <div id="camera-placeholder" class="camera-placeholder">
+              <div class="camera-icon"></div><p>点击下方按钮开启后置相机</p>
+            </div>
+          </div>
+          <div id="scan-feedback" class="feedback neutral" role="status">等待扫码</div>
+          <button id="camera-button" class="primary-button full" type="button">开启相机扫码</button>
+          <details class="manual-entry">
+            <summary>无法使用相机？手动输入测试</summary>
+            <form id="manual-form">
+              <input id="manual-code" autocomplete="off" maxlength="100" placeholder="输入二维码完整内容" />
+              <button class="secondary-button" type="submit">验证并计数</button>
+            </form>
+          </details>
+        </section>
+
+        <section class="card records-card">
+          <div class="section-heading">
+            <div><span class="label">门店档案</span><h2 id="store-name">扫码记录</h2></div>
+            <button id="edit-store-button" class="text-button" type="button">编辑资料</button>
+          </div>
+          <div id="store-meta" class="store-meta"></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>时间</th><th>产品</th><th>口味</th><th>二维码尾号</th></tr></thead>
+              <tbody id="scan-list"></tbody>
+            </table>
+          </div>
+          <p id="no-records" class="no-records">这家门店还没有有效扫码。</p>
+        </section>
+      </div>
+    </main>
+
+    <dialog id="store-dialog">
+      <form id="store-form" method="dialog">
+        <div class="dialog-heading"><div><span class="label">门店档案</span><h2 id="dialog-title">新建门店</h2></div><button class="close-button" value="cancel" aria-label="关闭">×</button></div>
+        <input id="store-id" type="hidden" />
+        <label>门店名称 *<input id="store-name-input" required maxlength="80" placeholder="例如：Soho Vape Store" /></label>
+        <label>门店编号<input id="store-code-input" maxlength="40" placeholder="例如：UK-001" /></label>
+        <label>地址<input id="store-address-input" maxlength="160" placeholder="门店地址" /></label>
+        <label>联系人<input id="store-contact-input" maxlength="80" placeholder="姓名或电话" /></label>
+        <div class="dialog-actions"><button class="quiet-button" value="cancel" type="button" id="cancel-store">取消</button><button class="primary-button" type="submit">保存档案</button></div>
+      </form>
+    </dialog>
+
+    <script>
+const EMBEDDED_CATALOG = {
+  "generatedFrom": "PIXL UK [Jun 26] Code.xlsx",
+  "generatedAt": "2026-06-20T14:41:57.608Z",
+  "models": {
+    "P8W03": "PIXL 8K Wet Kit",
+    "P8T03": "PIXL 8K Tank Kit",
+    "PDW02": "PIXL DUO Wet Kit",
+    "PDT02": "PIXL DUO Tank Kit",
+    "PNS24": "PIXL Nicotine Salt(20mg)",
+    "PNS14": "PIXL Nicotine Salt(10mg)",
+    "PNS54": "PIXL Nicotine Salt(5mg)",
+    "P5W05": "PIXL 5K Wet Kit",
+    "P5T05": "PIXL 5K Tank Kit",
+    "P5D05": "PIXL 5K Dry Kit"
+  },
+  "rules": [
+    {
+      "productCode": "P5D05",
+      "flavorCode": "CO3",
+      "flavorName": "Cosmic Orange"
+    },
+    {
+      "productCode": "P5D05",
+      "flavorCode": "GP2",
+      "flavorName": "Galaxy Purple"
+    },
+    {
+      "productCode": "P5D05",
+      "flavorCode": "MB1",
+      "flavorName": "Midnight Black"
+    },
+    {
+      "productCode": "P5D05",
+      "flavorCode": "SG6",
+      "flavorName": "Space Grey"
+    },
+    {
+      "productCode": "P5D05",
+      "flavorCode": "SR5",
+      "flavorName": "Sunset Red"
+    },
+    {
+      "productCode": "P5D05",
+      "flavorCode": "TB4",
+      "flavorName": "Twilight Blue"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "N^S",
+      "flavorName": "Blue Razz GB"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "N^*",
+      "flavorName": "Blueberry Raspberry"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "N_^",
+      "flavorName": "Blueberry Sour Razz"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "OU%",
+      "flavorName": "Cherry Ice"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "RY#",
+      "flavorName": "Fresh Mint"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "T[@",
+      "flavorName": "Hawaiian Oasis"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "TT$",
+      "flavorName": "Huba Huba"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "V\\@",
+      "flavorName": "Juicy Peach"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "XX&",
+      "flavorName": "Lemon Lime"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "YN$",
+      "flavorName": "Mr Blue"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "\\U#",
+      "flavorName": "Pineapple Ice"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "^O^",
+      "flavorName": "Rainbow Candy"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "_N^",
+      "flavorName": "Strawberry Burst"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "_TT",
+      "flavorName": "Strawberry Huba Huba"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "_^O",
+      "flavorName": "Strawberry Raspberry Cherry"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "_^U",
+      "flavorName": "Strawberry Raspberry Ice"
+    },
+    {
+      "productCode": "P5W05",
+      "flavorCode": "N^S",
+      "flavorName": "Blue Razz GB"
+    },
+    {
+      "productCode": "P5W05",
+      "flavorCode": "N^*",
+      "flavorName": "Blueberry Raspberry"
+    },
+    {
+      "productCode": "P5W05",
+      "flavorCode": "N_^",
+      "flavorName": "Blueberry Sour Razz"
+    },
+    {
+      "productCode": "P5W05",
+      "flavorCode": "OU%",
+      "flavorName": "Cherry Ice"
+    },
+    {
+      "productCode": "P5W05",
+      "flavorCode": "RY#",
+      "flavorName": "Fresh Mint"
+    },
+    {
+      "productCode": "P5W05",
+      "flavorCode": "TT$",
+      "flavorName": "Huba Huba"
+    },
+    {
+      "productCode": "P5W05",
+      "flavorCode": "XX&",
+      "flavorName": "Lemon Lime"
+    },
+    {
+      "productCode": "P5W05",
+      "flavorCode": "\\U#",
+      "flavorName": "Pineapple Ice"
+    },
+    {
+      "productCode": "P5W05",
+      "flavorCode": "^O^",
+      "flavorName": "Rainbow Candy"
+    },
+    {
+      "productCode": "P5W05",
+      "flavorCode": "_TT",
+      "flavorName": "Strawberry Huba Huba"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "NO$",
+      "flavorName": "Black Cherry"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "NOO",
+      "flavorName": "Blue Cherry Cranberry"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "NY^",
+      "flavorName": "Blue Magic"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "N^B",
+      "flavorName": "Blue Razz Cherry"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "N^A",
+      "flavorName": "Blue Razz Chew"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "N^O",
+      "flavorName": "Blue Razz Cotton"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "N^X",
+      "flavorName": "Blue Razz Lemonade"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "N^*",
+      "flavorName": "Blueberry Raspberry"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "N_^",
+      "flavorName": "Blueberry Sour Razz"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "OU%",
+      "flavorName": "Cherry Ice"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "OX*",
+      "flavorName": "cherry lemonade"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "O\\*",
+      "flavorName": "Cherry Pop"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "O_^",
+      "flavorName": "cherry sour raspberry"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "OX&",
+      "flavorName": "Cola Lime"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "PM^",
+      "flavorName": "Double Apple"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "RY#",
+      "flavorName": "Fresh Mint"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "T[@",
+      "flavorName": "Hawaiian Oasis"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "TN%",
+      "flavorName": "Hub Bub"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "V\\@",
+      "flavorName": "Juicy Peach"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "XMX",
+      "flavorName": "Lemon & Lime"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "YU&",
+      "flavorName": "Mango Ice"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "\\\\%",
+      "flavorName": "Paradise Punch"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "\\U#",
+      "flavorName": "Pineapple Ice"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "\\X*",
+      "flavorName": "Pink Lemonade"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "\\^(",
+      "flavorName": "Pink Razz"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "\\P$",
+      "flavorName": "PIXL Dust"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "\\P(",
+      "flavorName": "Purple Dream"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "^^*",
+      "flavorName": "Rainbow Rush"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "^c(",
+      "flavorName": "Raspberry Watermelon"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "_^^",
+      "flavorName": "Sakura Raspberry"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "_OM",
+      "flavorName": "sour cherry apple"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "_\\Y",
+      "flavorName": "sour pineapple mango"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "_$Y",
+      "flavorName": "SPEARMINT"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "_(]",
+      "flavorName": "Starmix"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "_N^",
+      "flavorName": "Strawberry Burst"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "_WN",
+      "flavorName": "Strawberry Kiwi Bubba"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "_W^",
+      "flavorName": "Strawberry Kiwi Razz"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "_c$",
+      "flavorName": "Strawberry Watermelon"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "8c&",
+      "flavorName": "Tropical Wave"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "cU^",
+      "flavorName": "Watermelon Ice"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "NO$",
+      "flavorName": "Black Cherry"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "NOO",
+      "flavorName": "Blue Cherry Cranberry"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "NY^",
+      "flavorName": "Blue Magic"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "N^B",
+      "flavorName": "Blue Razz Cherry"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "N^A",
+      "flavorName": "Blue Razz Chew"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "N^O",
+      "flavorName": "Blue Razz Cotton"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "N^X",
+      "flavorName": "Blue Razz Lemonade"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "N^*",
+      "flavorName": "Blueberry Raspberry"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "N_^",
+      "flavorName": "Blueberry Sour Razz"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "OU%",
+      "flavorName": "Cherry Ice"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "OX*",
+      "flavorName": "cherry lemonade"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "O\\*",
+      "flavorName": "Cherry Pop"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "O_^",
+      "flavorName": "cherry sour raspberry"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "OX&",
+      "flavorName": "Cola Lime"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "PM^",
+      "flavorName": "Double Apple"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "RY#",
+      "flavorName": "Fresh Mint"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "T[@",
+      "flavorName": "Hawaiian Oasis"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "TN%",
+      "flavorName": "Hub Bub"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "V\\@",
+      "flavorName": "Juicy Peach"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "XMX",
+      "flavorName": "Lemon & Lime"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "YU&",
+      "flavorName": "Mango Ice"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "\\\\%",
+      "flavorName": "Paradise Punch"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "\\U#",
+      "flavorName": "Pineapple Ice"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "\\X*",
+      "flavorName": "Pink Lemonade"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "\\^(",
+      "flavorName": "Pink Razz"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "\\P$",
+      "flavorName": "PIXL Dust"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "\\P(",
+      "flavorName": "Purple Dream"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "^^*",
+      "flavorName": "Rainbow Rush"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "^c(",
+      "flavorName": "Raspberry Watermelon"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "_^^",
+      "flavorName": "Sakura Raspberry"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "_OM",
+      "flavorName": "sour cherry apple"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "_\\Y",
+      "flavorName": "sour pineapple mango"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "_$Y",
+      "flavorName": "SPEARMINT"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "_(]",
+      "flavorName": "Starmix"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "_N^",
+      "flavorName": "Strawberry Burst"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "_WN",
+      "flavorName": "Strawberry Kiwi Bubba"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "_W^",
+      "flavorName": "Strawberry Kiwi Razz"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "_c$",
+      "flavorName": "Strawberry Watermelon"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "8c&",
+      "flavorName": "Tropical Wave"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "cU^",
+      "flavorName": "Watermelon Ice"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "N!X",
+      "flavorName": "Berry Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "N&]",
+      "flavorName": "Blue Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "N^$",
+      "flavorName": "Blueberry Razz"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "O(W",
+      "flavorName": "Cherry Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "O_^",
+      "flavorName": "Cherry Sour Raspberry"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "R*^",
+      "flavorName": "Fantasy Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "XX&",
+      "flavorName": "Lemon Lime"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "X)d",
+      "flavorName": "Lemonade Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "X$T",
+      "flavorName": "Lime Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "Y@f",
+      "flavorName": "Mint Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "\\*V",
+      "flavorName": "Pineapple Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "\\U#",
+      "flavorName": "Pineapple Ice"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "\\%S",
+      "flavorName": "Pink Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "\\#Z",
+      "flavorName": "Purple Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "^!8",
+      "flavorName": "Raspberry Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "^&P",
+      "flavorName": "Red Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "_@Y",
+      "flavorName": "Strawberry Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "8(_",
+      "flavorName": "Tropical Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "c^\\",
+      "flavorName": "Watermelon Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "cU^",
+      "flavorName": "Watermelon Ice"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "e$b",
+      "flavorName": "Yellow Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "N!X",
+      "flavorName": "Berry Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "N&]",
+      "flavorName": "Blue Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "N^$",
+      "flavorName": "Blueberry Razz"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "O(W",
+      "flavorName": "Cherry Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "O_^",
+      "flavorName": "Cherry Sour Raspberry"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "R*^",
+      "flavorName": "Fantasy Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "XX&",
+      "flavorName": "Lemon Lime"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "X)d",
+      "flavorName": "Lemonade Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "X$T",
+      "flavorName": "Lime Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "Y@f",
+      "flavorName": "Mint Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "\\*V",
+      "flavorName": "Pineapple Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "\\U#",
+      "flavorName": "Pineapple Ice"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "\\%S",
+      "flavorName": "Pink Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "\\#Z",
+      "flavorName": "Purple Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "^!8",
+      "flavorName": "Raspberry Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "^&P",
+      "flavorName": "Red Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "_@Y",
+      "flavorName": "Strawberry Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "8(_",
+      "flavorName": "Tropical Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "c^\\",
+      "flavorName": "Watermelon Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "cU^",
+      "flavorName": "Watermelon Ice"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "e$b",
+      "flavorName": "Yellow Edition"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "NU(",
+      "flavorName": "Banana ice"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "NN^",
+      "flavorName": "black blueberry"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "NY&",
+      "flavorName": "Blackcurrant Menthol"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "N^O",
+      "flavorName": "Blue Razz Cherry"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "N^S",
+      "flavorName": "Blue Razz Gummy"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "N^X",
+      "flavorName": "Blue Razz Lemonade"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "N_^",
+      "flavorName": "Blue Sour Raspberry"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "N^*",
+      "flavorName": "Blueberry Raspberry"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "OU%",
+      "flavorName": "Cherry Ice"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "O_^",
+      "flavorName": "cherry sour raspberry"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "OX&",
+      "flavorName": "Cola Lime"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "POU",
+      "flavorName": "Dark cherry ice"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "RO%",
+      "flavorName": "fizzy cherry"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "RY#",
+      "flavorName": "Fresh Mint"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "S&Y",
+      "flavorName": "Grape"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "SN(",
+      "flavorName": "Grape Berry"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "SN^",
+      "flavorName": "gummy bear"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "TN%",
+      "flavorName": "Hub bub"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "V\\@",
+      "flavorName": "Juicy Peach"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "XX&",
+      "flavorName": "Lemon Lime"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "Y*]",
+      "flavorName": "Menthol"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "YN$",
+      "flavorName": "Mr blue"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "[%W",
+      "flavorName": "oasis"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "\\U#",
+      "flavorName": "Pineapple Ice"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "^^&",
+      "flavorName": "Rhubarb Raspberry"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "_UO",
+      "flavorName": "strawberry ice cream"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "_^O",
+      "flavorName": "strawberry raspberry cherry"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "_c$",
+      "flavorName": "Strawberry Watermelon"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "8Y$",
+      "flavorName": "Triple Mango"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "cU^",
+      "flavorName": "Watermelon Ice"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "NU(",
+      "flavorName": "Banana ice"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "NN^",
+      "flavorName": "black blueberry"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "NY&",
+      "flavorName": "Blackcurrant Menthol"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "N^O",
+      "flavorName": "Blue Razz Cherry"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "N^S",
+      "flavorName": "Blue Razz Gummy"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "N^X",
+      "flavorName": "Blue Razz Lemonade"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "N_^",
+      "flavorName": "Blue Sour Raspberry"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "N^*",
+      "flavorName": "Blueberry Raspberry"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "OU%",
+      "flavorName": "Cherry Ice"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "O_^",
+      "flavorName": "cherry sour raspberry"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "OX&",
+      "flavorName": "Cola Lime"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "POU",
+      "flavorName": "Dark cherry ice"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "RO%",
+      "flavorName": "fizzy cherry"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "RY#",
+      "flavorName": "Fresh Mint"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "S&Y",
+      "flavorName": "Grape"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "SN(",
+      "flavorName": "Grape Berry"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "SN^",
+      "flavorName": "gummy bear"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "TN%",
+      "flavorName": "Hub bub"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "V\\@",
+      "flavorName": "Juicy Peach"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "XX&",
+      "flavorName": "Lemon Lime"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "Y*]",
+      "flavorName": "Menthol"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "YN$",
+      "flavorName": "Mr blue"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "[%W",
+      "flavorName": "oasis"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "\\U#",
+      "flavorName": "Pineapple Ice"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "^^&",
+      "flavorName": "Rhubarb Raspberry"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "_UO",
+      "flavorName": "strawberry ice cream"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "_^O",
+      "flavorName": "strawberry raspberry cherry"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "_c$",
+      "flavorName": "Strawberry Watermelon"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "8Y$",
+      "flavorName": "Triple Mango"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "cU^",
+      "flavorName": "Watermelon Ice"
+    }
+  ]
+};
+const DB_NAME = "pixl-retail-scan";
+const DB_VERSION = 1;
+
+function requestResult(request) {
+  return new Promise((resolve, reject) => {
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+async function openDatabase() {
+  const request = indexedDB.open(DB_NAME, DB_VERSION);
+  request.onupgradeneeded = () => {
+    const db = request.result;
+    const stores = db.createObjectStore("stores", { keyPath: "id" });
+    stores.createIndex("name", "name");
+    const scans = db.createObjectStore("scans", { keyPath: "code" });
+    scans.createIndex("storeId", "storeId");
+    scans.createIndex("scannedAt", "scannedAt");
+  };
+  return requestResult(request);
+}
+
+function getAll(db, storeName) {
+  return requestResult(db.transaction(storeName).objectStore(storeName).getAll());
+}
+
+function put(db, storeName, value) {
+  return requestResult(db.transaction(storeName, "readwrite").objectStore(storeName).put(value));
+}
+
+function add(db, storeName, value) {
+  return requestResult(db.transaction(storeName, "readwrite").objectStore(storeName).add(value));
+}
+
+function get(db, storeName, key) {
+  return requestResult(db.transaction(storeName).objectStore(storeName).get(key));
+}
+
+function getByIndex(db, storeName, indexName, key) {
+  return requestResult(db.transaction(storeName).objectStore(storeName).index(indexName).getAll(key));
+}
+
+const QR_LENGTH = 28;
+
+function createRuleIndex(catalog) {
+  return new Map(catalog.rules.map((rule) => [`${rule.productCode}\u0000${rule.flavorCode}`, rule]));
+}
+
+function parseQr(rawValue, catalog, now = new Date()) {
+  const value = String(rawValue ?? "").replace(/[\r\n]+$/g, "");
+  if (value.length !== QR_LENGTH) return { valid: false, reason: `二维码应为 ${QR_LENGTH} 位，当前为 ${value.length} 位` };
+
+  const productCode = value.slice(0, 5);
+  const uniqueCode = value.slice(5, 11);
+  const flavorCode = value.slice(11, 14);
+  const timeCode = value.slice(14, 28);
+  if (!/^[\x20-\x7E]{6}$/.test(uniqueCode)) return { valid: false, reason: "6 位唯一码含有非 ASCII 字符" };
+  if (!/^\d{14}$/.test(timeCode)) return { valid: false, reason: "时间码必须为 14 位数字" };
+
+  const match = createRuleIndex(catalog).get(`${productCode}\u0000${flavorCode}`);
+  if (!match) return { valid: false, reason: "产品码与口味码不在编码表中" };
+
+  const year = Number(timeCode.slice(0, 4));
+  const month = Number(timeCode.slice(4, 6));
+  const day = Number(timeCode.slice(6, 8));
+  const hour = Number(timeCode.slice(8, 10));
+  const minute = Number(timeCode.slice(10, 12));
+  const second = Number(timeCode.slice(12, 14));
+  const timestamp = new Date(year, month - 1, day, hour, minute, second);
+  const exact = timestamp.getFullYear() === year && timestamp.getMonth() === month - 1 && timestamp.getDate() === day && timestamp.getHours() === hour && timestamp.getMinutes() === minute && timestamp.getSeconds() === second;
+  if (!exact || year < 2020 || timestamp.getTime() > now.getTime() + 24 * 60 * 60 * 1000) {
+    return { valid: false, reason: "生产时间码不是有效日期" };
+  }
+
+  return {
+    valid: true,
+    value,
+    productCode,
+    uniqueCode,
+    flavorCode,
+    timeCode,
+    producedAt: timestamp.toISOString(),
+    productName: catalog.models[productCode] ?? productCode,
+    flavorName: match.flavorName || flavorCode,
+  };
+}
+
+
+const $ = (selector) => document.querySelector(selector);
+const elements = {
+  storeSelect: $("#store-select"), empty: $("#empty-state"), workspace: $("#workspace"), dialog: $("#store-dialog"),
+  storeForm: $("#store-form"), storeId: $("#store-id"), nameInput: $("#store-name-input"), codeInput: $("#store-code-input"),
+  addressInput: $("#store-address-input"), contactInput: $("#store-contact-input"), dialogTitle: $("#dialog-title"),
+  total: $("#total-count"), today: $("#today-count"), products: $("#product-count"), storeName: $("#store-name"),
+  storeMeta: $("#store-meta"), scanList: $("#scan-list"), noRecords: $("#no-records"), video: $("#camera"),
+  cameraButton: $("#camera-button"), cameraStatus: $("#camera-status"), cameraPlaceholder: $("#camera-placeholder"),
+  feedback: $("#scan-feedback"), manualForm: $("#manual-form"), manualCode: $("#manual-code"),
+};
+
+let db;
+let catalog;
+let stores = [];
+let currentStoreId = localStorage.getItem("pixl-current-store") || "";
+let stream = null;
+let detector = null;
+let scanning = false;
+let lastDetected = { code: "", at: 0 };
+
+async function init() {
+  db = await openDatabase(); catalog = EMBEDDED_CATALOG;
+  bindEvents();
+  await refreshStores();
+}
+
+function bindEvents() {
+  $("#new-store-button").addEventListener("click", () => openStoreDialog());
+  $("#empty-new-store").addEventListener("click", () => openStoreDialog());
+  $("#edit-store-button").addEventListener("click", editCurrentStore);
+  $("#cancel-store").addEventListener("click", () => elements.dialog.close());
+  elements.storeForm.addEventListener("submit", saveStore);
+  elements.storeSelect.addEventListener("change", async () => {
+    currentStoreId = elements.storeSelect.value;
+    localStorage.setItem("pixl-current-store", currentStoreId);
+    await renderCurrentStore();
+  });
+  elements.cameraButton.addEventListener("click", toggleCamera);
+  elements.manualForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    await handleCode(elements.manualCode.value);
+    elements.manualCode.select();
+  });
+  $("#export-button").addEventListener("click", exportRecords);
+  window.addEventListener("pagehide", stopCamera);
+}
+
+async function refreshStores() {
+  stores = (await getAll(db, "stores")).sort((a, b) => a.name.localeCompare(b.name));
+  if (!stores.some((store) => store.id === currentStoreId)) currentStoreId = stores[0]?.id || "";
+  elements.storeSelect.innerHTML = stores.length
+    ? stores.map((store) => `<option value="${escapeHtml(store.id)}">${escapeHtml(store.name)}</option>`).join("")
+    : '<option value="">暂无门店</option>';
+  elements.storeSelect.value = currentStoreId;
+  elements.empty.hidden = stores.length > 0;
+  elements.workspace.hidden = stores.length === 0;
+  await renderCurrentStore();
+}
+
+function openStoreDialog(store = null) {
+  elements.dialogTitle.textContent = store ? "编辑门店" : "新建门店";
+  elements.storeId.value = store?.id || "";
+  elements.nameInput.value = store?.name || "";
+  elements.codeInput.value = store?.code || "";
+  elements.addressInput.value = store?.address || "";
+  elements.contactInput.value = store?.contact || "";
+  elements.dialog.showModal();
+  elements.nameInput.focus();
+}
+
+async function saveStore(event) {
+  event.preventDefault();
+  const existing = stores.find((store) => store.id === elements.storeId.value);
+  const store = {
+    id: existing?.id || crypto.randomUUID(),
+    name: elements.nameInput.value.trim(),
+    code: elements.codeInput.value.trim(),
+    address: elements.addressInput.value.trim(),
+    contact: elements.contactInput.value.trim(),
+    createdAt: existing?.createdAt || new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+  if (!store.name) return;
+  await put(db, "stores", store);
+  currentStoreId = store.id;
+  localStorage.setItem("pixl-current-store", currentStoreId);
+  elements.dialog.close();
+  await refreshStores();
+}
+
+function editCurrentStore() {
+  const store = stores.find((item) => item.id === currentStoreId);
+  if (store) openStoreDialog(store);
+}
+
+async function renderCurrentStore() {
+  if (!currentStoreId || !db) return;
+  const store = stores.find((item) => item.id === currentStoreId);
+  const scans = (await getByIndex(db, "scans", "storeId", currentStoreId)).sort((a, b) => b.scannedAt.localeCompare(a.scannedAt));
+  elements.storeName.textContent = store.name;
+  elements.storeMeta.textContent = [store.code, store.address, store.contact].filter(Boolean).join(" · ") || "尚未填写门店详情";
+  elements.total.textContent = scans.length.toLocaleString("zh-CN");
+  const todayKey = new Date().toLocaleDateString("en-CA");
+  elements.today.textContent = scans.filter((scan) => new Date(scan.scannedAt).toLocaleDateString("en-CA") === todayKey).length.toLocaleString("zh-CN");
+  elements.products.textContent = new Set(scans.map((scan) => scan.productCode)).size;
+  elements.scanList.innerHTML = scans.slice(0, 100).map((scan) => `<tr><td>${formatDate(scan.scannedAt)}</td><td><strong>${escapeHtml(scan.productName)}</strong><small>${escapeHtml(scan.productCode)}</small></td><td>${escapeHtml(scan.flavorName)}</td><td>…${escapeHtml(scan.code.slice(-6))}</td></tr>`).join("");
+  elements.noRecords.hidden = scans.length > 0;
+}
+
+async function toggleCamera() {
+  if (stream) return stopCamera();
+  if (!("BarcodeDetector" in window)) {
+    setFeedback("error", "此浏览器不支持实时识码，请用最新版 Chrome 或手动输入。", "不支持相机识码");
+    return;
+  }
+  try {
+    const formats = await BarcodeDetector.getSupportedFormats();
+    if (!formats.includes("qr_code")) throw new Error("QR format unavailable");
+    detector = new BarcodeDetector({ formats: ["qr_code"] });
+    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" } }, audio: false });
+    elements.video.srcObject = stream;
+    await elements.video.play();
+    elements.cameraPlaceholder.hidden = true;
+    elements.cameraButton.textContent = "停止扫码";
+    elements.cameraStatus.textContent = "正在扫描";
+    elements.cameraStatus.classList.add("live");
+    scanning = true;
+    scanFrame();
+  } catch (error) {
+    setFeedback("error", "无法开启相机，请检查浏览器权限。", "相机不可用");
+    stopCamera();
+  }
+}
+
+async function scanFrame() {
+  if (!scanning || !detector) return;
+  try {
+    const codes = await detector.detect(elements.video);
+    const value = codes[0]?.rawValue;
+    if (value && (value !== lastDetected.code || Date.now() - lastDetected.at > 3000)) {
+      lastDetected = { code: value, at: Date.now() };
+      await handleCode(value);
+    }
+  } catch (_) {}
+  if (scanning) requestAnimationFrame(scanFrame);
+}
+
+function stopCamera() {
+  scanning = false;
+  stream?.getTracks().forEach((track) => track.stop());
+  stream = null;
+  elements.video.srcObject = null;
+  elements.cameraPlaceholder.hidden = false;
+  elements.cameraButton.textContent = "开启相机扫码";
+  elements.cameraStatus.textContent = "相机未启动";
+  elements.cameraStatus.classList.remove("live");
+}
+
+async function handleCode(rawValue) {
+  if (!currentStoreId) return setFeedback("error", "请先选择门店。", "未选择门店");
+  const result = parseQr(rawValue, catalog);
+  if (!result.valid) {
+    setFeedback("error", result.reason, "无效二维码");
+    vibrate([100, 60, 100]);
+    return;
+  }
+  const existing = await get(db, "scans", result.value);
+  if (existing) {
+    const store = stores.find((item) => item.id === existing.storeId);
+    setFeedback("duplicate", `已于 ${formatDate(existing.scannedAt)} 计入 ${store?.name || "其他门店"}`, "重复扫码 · 未计数");
+    vibrate([60, 50, 60]);
+    return;
+  }
+  try {
+    await add(db, "scans", { code: result.value, storeId: currentStoreId, scannedAt: new Date().toISOString(), ...result });
+    setFeedback("success", `${result.productName} · ${result.flavorName}`, "计数成功 +1");
+    vibrate(80);
+    await renderCurrentStore();
+  } catch (error) {
+    if (error.name === "ConstraintError") setFeedback("duplicate", "此二维码已经记录。", "重复扫码 · 未计数");
+    else setFeedback("error", "记录保存失败，请重试。", "保存失败");
+  }
+}
+
+async function exportRecords() {
+  if (!db) return;
+  const scans = await getAll(db, "scans");
+  const rows = [["门店名称", "门店编号", "扫码时间", "产品码", "产品名称", "口味码", "口味名称", "生产时间", "完整二维码"]];
+  for (const scan of scans.sort((a, b) => a.scannedAt.localeCompare(b.scannedAt))) {
+    const store = stores.find((item) => item.id === scan.storeId) || {};
+    rows.push([store.name, store.code, scan.scannedAt, scan.productCode, scan.productName, scan.flavorCode, scan.flavorName, scan.producedAt, scan.code]);
+  }
+  const csv = rows.map((row) => row.map(csvCell).join(",")).join("\r\n");
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(new Blob(["\ufeff", csv], { type: "text/csv;charset=utf-8" }));
+  link.download = `PIXL扫码记录-${new Date().toLocaleDateString("en-CA")}.csv`;
+  link.click();
+  URL.revokeObjectURL(link.href);
+}
+
+function setFeedback(type, detail, title) {
+  elements.feedback.className = `feedback ${type}`;
+  elements.feedback.innerHTML = `<strong>${escapeHtml(title)}</strong><span>${escapeHtml(detail)}</span>`;
+}
+function formatDate(value) { return new Intl.DateTimeFormat("zh-CN", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" }).format(new Date(value)); }
+function escapeHtml(value) { return String(value ?? "").replace(/[&<>"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[char]); }
+function csvCell(value) { return `"${String(value ?? "").replaceAll('"', '""')}"`; }
+function vibrate(pattern) { navigator.vibrate?.(pattern); }
+
+init().catch((error) => {
+  console.error(error);
+  document.body.innerHTML = '<main class="fatal"><h1>应用加载失败</h1><p>请刷新页面，或使用最新版 Chrome 重新打开。</p></main>';
+});
+
+    </script>
+  </body>
+</html>

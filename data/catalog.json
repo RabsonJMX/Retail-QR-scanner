@@ -1,0 +1,1088 @@
+{
+  "generatedFrom": "PIXL UK [Jun 26] Code.xlsx",
+  "generatedAt": "2026-06-20T14:41:57.608Z",
+  "models": {
+    "P8W03": "PIXL 8K Wet Kit",
+    "P8T03": "PIXL 8K Tank Kit",
+    "PDW02": "PIXL DUO Wet Kit",
+    "PDT02": "PIXL DUO Tank Kit",
+    "PNS24": "PIXL Nicotine Salt(20mg)",
+    "PNS14": "PIXL Nicotine Salt(10mg)",
+    "PNS54": "PIXL Nicotine Salt(5mg)",
+    "P5W05": "PIXL 5K Wet Kit",
+    "P5T05": "PIXL 5K Tank Kit",
+    "P5D05": "PIXL 5K Dry Kit"
+  },
+  "rules": [
+    {
+      "productCode": "P5D05",
+      "flavorCode": "CO3",
+      "flavorName": "Cosmic Orange"
+    },
+    {
+      "productCode": "P5D05",
+      "flavorCode": "GP2",
+      "flavorName": "Galaxy Purple"
+    },
+    {
+      "productCode": "P5D05",
+      "flavorCode": "MB1",
+      "flavorName": "Midnight Black"
+    },
+    {
+      "productCode": "P5D05",
+      "flavorCode": "SG6",
+      "flavorName": "Space Grey"
+    },
+    {
+      "productCode": "P5D05",
+      "flavorCode": "SR5",
+      "flavorName": "Sunset Red"
+    },
+    {
+      "productCode": "P5D05",
+      "flavorCode": "TB4",
+      "flavorName": "Twilight Blue"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "N^S",
+      "flavorName": "Blue Razz GB"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "N^*",
+      "flavorName": "Blueberry Raspberry"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "N_^",
+      "flavorName": "Blueberry Sour Razz"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "OU%",
+      "flavorName": "Cherry Ice"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "RY#",
+      "flavorName": "Fresh Mint"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "T[@",
+      "flavorName": "Hawaiian Oasis"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "TT$",
+      "flavorName": "Huba Huba"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "V\\@",
+      "flavorName": "Juicy Peach"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "XX&",
+      "flavorName": "Lemon Lime"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "YN$",
+      "flavorName": "Mr Blue"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "\\U#",
+      "flavorName": "Pineapple Ice"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "^O^",
+      "flavorName": "Rainbow Candy"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "_N^",
+      "flavorName": "Strawberry Burst"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "_TT",
+      "flavorName": "Strawberry Huba Huba"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "_^O",
+      "flavorName": "Strawberry Raspberry Cherry"
+    },
+    {
+      "productCode": "P5T05",
+      "flavorCode": "_^U",
+      "flavorName": "Strawberry Raspberry Ice"
+    },
+    {
+      "productCode": "P5W05",
+      "flavorCode": "N^S",
+      "flavorName": "Blue Razz GB"
+    },
+    {
+      "productCode": "P5W05",
+      "flavorCode": "N^*",
+      "flavorName": "Blueberry Raspberry"
+    },
+    {
+      "productCode": "P5W05",
+      "flavorCode": "N_^",
+      "flavorName": "Blueberry Sour Razz"
+    },
+    {
+      "productCode": "P5W05",
+      "flavorCode": "OU%",
+      "flavorName": "Cherry Ice"
+    },
+    {
+      "productCode": "P5W05",
+      "flavorCode": "RY#",
+      "flavorName": "Fresh Mint"
+    },
+    {
+      "productCode": "P5W05",
+      "flavorCode": "TT$",
+      "flavorName": "Huba Huba"
+    },
+    {
+      "productCode": "P5W05",
+      "flavorCode": "XX&",
+      "flavorName": "Lemon Lime"
+    },
+    {
+      "productCode": "P5W05",
+      "flavorCode": "\\U#",
+      "flavorName": "Pineapple Ice"
+    },
+    {
+      "productCode": "P5W05",
+      "flavorCode": "^O^",
+      "flavorName": "Rainbow Candy"
+    },
+    {
+      "productCode": "P5W05",
+      "flavorCode": "_TT",
+      "flavorName": "Strawberry Huba Huba"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "NO$",
+      "flavorName": "Black Cherry"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "NOO",
+      "flavorName": "Blue Cherry Cranberry"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "NY^",
+      "flavorName": "Blue Magic"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "N^B",
+      "flavorName": "Blue Razz Cherry"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "N^A",
+      "flavorName": "Blue Razz Chew"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "N^O",
+      "flavorName": "Blue Razz Cotton"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "N^X",
+      "flavorName": "Blue Razz Lemonade"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "N^*",
+      "flavorName": "Blueberry Raspberry"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "N_^",
+      "flavorName": "Blueberry Sour Razz"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "OU%",
+      "flavorName": "Cherry Ice"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "OX*",
+      "flavorName": "cherry lemonade"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "O\\*",
+      "flavorName": "Cherry Pop"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "O_^",
+      "flavorName": "cherry sour raspberry"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "OX&",
+      "flavorName": "Cola Lime"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "PM^",
+      "flavorName": "Double Apple"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "RY#",
+      "flavorName": "Fresh Mint"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "T[@",
+      "flavorName": "Hawaiian Oasis"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "TN%",
+      "flavorName": "Hub Bub"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "V\\@",
+      "flavorName": "Juicy Peach"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "XMX",
+      "flavorName": "Lemon & Lime"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "YU&",
+      "flavorName": "Mango Ice"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "\\\\%",
+      "flavorName": "Paradise Punch"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "\\U#",
+      "flavorName": "Pineapple Ice"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "\\X*",
+      "flavorName": "Pink Lemonade"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "\\^(",
+      "flavorName": "Pink Razz"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "\\P$",
+      "flavorName": "PIXL Dust"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "\\P(",
+      "flavorName": "Purple Dream"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "^^*",
+      "flavorName": "Rainbow Rush"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "^c(",
+      "flavorName": "Raspberry Watermelon"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "_^^",
+      "flavorName": "Sakura Raspberry"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "_OM",
+      "flavorName": "sour cherry apple"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "_\\Y",
+      "flavorName": "sour pineapple mango"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "_$Y",
+      "flavorName": "SPEARMINT"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "_(]",
+      "flavorName": "Starmix"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "_N^",
+      "flavorName": "Strawberry Burst"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "_WN",
+      "flavorName": "Strawberry Kiwi Bubba"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "_W^",
+      "flavorName": "Strawberry Kiwi Razz"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "_c$",
+      "flavorName": "Strawberry Watermelon"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "8c&",
+      "flavorName": "Tropical Wave"
+    },
+    {
+      "productCode": "P8T03",
+      "flavorCode": "cU^",
+      "flavorName": "Watermelon Ice"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "NO$",
+      "flavorName": "Black Cherry"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "NOO",
+      "flavorName": "Blue Cherry Cranberry"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "NY^",
+      "flavorName": "Blue Magic"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "N^B",
+      "flavorName": "Blue Razz Cherry"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "N^A",
+      "flavorName": "Blue Razz Chew"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "N^O",
+      "flavorName": "Blue Razz Cotton"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "N^X",
+      "flavorName": "Blue Razz Lemonade"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "N^*",
+      "flavorName": "Blueberry Raspberry"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "N_^",
+      "flavorName": "Blueberry Sour Razz"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "OU%",
+      "flavorName": "Cherry Ice"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "OX*",
+      "flavorName": "cherry lemonade"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "O\\*",
+      "flavorName": "Cherry Pop"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "O_^",
+      "flavorName": "cherry sour raspberry"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "OX&",
+      "flavorName": "Cola Lime"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "PM^",
+      "flavorName": "Double Apple"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "RY#",
+      "flavorName": "Fresh Mint"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "T[@",
+      "flavorName": "Hawaiian Oasis"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "TN%",
+      "flavorName": "Hub Bub"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "V\\@",
+      "flavorName": "Juicy Peach"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "XMX",
+      "flavorName": "Lemon & Lime"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "YU&",
+      "flavorName": "Mango Ice"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "\\\\%",
+      "flavorName": "Paradise Punch"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "\\U#",
+      "flavorName": "Pineapple Ice"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "\\X*",
+      "flavorName": "Pink Lemonade"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "\\^(",
+      "flavorName": "Pink Razz"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "\\P$",
+      "flavorName": "PIXL Dust"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "\\P(",
+      "flavorName": "Purple Dream"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "^^*",
+      "flavorName": "Rainbow Rush"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "^c(",
+      "flavorName": "Raspberry Watermelon"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "_^^",
+      "flavorName": "Sakura Raspberry"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "_OM",
+      "flavorName": "sour cherry apple"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "_\\Y",
+      "flavorName": "sour pineapple mango"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "_$Y",
+      "flavorName": "SPEARMINT"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "_(]",
+      "flavorName": "Starmix"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "_N^",
+      "flavorName": "Strawberry Burst"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "_WN",
+      "flavorName": "Strawberry Kiwi Bubba"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "_W^",
+      "flavorName": "Strawberry Kiwi Razz"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "_c$",
+      "flavorName": "Strawberry Watermelon"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "8c&",
+      "flavorName": "Tropical Wave"
+    },
+    {
+      "productCode": "P8W03",
+      "flavorCode": "cU^",
+      "flavorName": "Watermelon Ice"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "N!X",
+      "flavorName": "Berry Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "N&]",
+      "flavorName": "Blue Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "N^$",
+      "flavorName": "Blueberry Razz"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "O(W",
+      "flavorName": "Cherry Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "O_^",
+      "flavorName": "Cherry Sour Raspberry"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "R*^",
+      "flavorName": "Fantasy Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "XX&",
+      "flavorName": "Lemon Lime"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "X)d",
+      "flavorName": "Lemonade Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "X$T",
+      "flavorName": "Lime Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "Y@f",
+      "flavorName": "Mint Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "\\*V",
+      "flavorName": "Pineapple Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "\\U#",
+      "flavorName": "Pineapple Ice"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "\\%S",
+      "flavorName": "Pink Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "\\#Z",
+      "flavorName": "Purple Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "^!8",
+      "flavorName": "Raspberry Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "^&P",
+      "flavorName": "Red Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "_@Y",
+      "flavorName": "Strawberry Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "8(_",
+      "flavorName": "Tropical Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "c^\\",
+      "flavorName": "Watermelon Edition"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "cU^",
+      "flavorName": "Watermelon Ice"
+    },
+    {
+      "productCode": "PDT02",
+      "flavorCode": "e$b",
+      "flavorName": "Yellow Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "N!X",
+      "flavorName": "Berry Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "N&]",
+      "flavorName": "Blue Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "N^$",
+      "flavorName": "Blueberry Razz"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "O(W",
+      "flavorName": "Cherry Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "O_^",
+      "flavorName": "Cherry Sour Raspberry"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "R*^",
+      "flavorName": "Fantasy Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "XX&",
+      "flavorName": "Lemon Lime"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "X)d",
+      "flavorName": "Lemonade Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "X$T",
+      "flavorName": "Lime Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "Y@f",
+      "flavorName": "Mint Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "\\*V",
+      "flavorName": "Pineapple Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "\\U#",
+      "flavorName": "Pineapple Ice"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "\\%S",
+      "flavorName": "Pink Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "\\#Z",
+      "flavorName": "Purple Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "^!8",
+      "flavorName": "Raspberry Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "^&P",
+      "flavorName": "Red Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "_@Y",
+      "flavorName": "Strawberry Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "8(_",
+      "flavorName": "Tropical Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "c^\\",
+      "flavorName": "Watermelon Edition"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "cU^",
+      "flavorName": "Watermelon Ice"
+    },
+    {
+      "productCode": "PDW02",
+      "flavorCode": "e$b",
+      "flavorName": "Yellow Edition"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "NU(",
+      "flavorName": "Banana ice"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "NN^",
+      "flavorName": "black blueberry"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "NY&",
+      "flavorName": "Blackcurrant Menthol"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "N^O",
+      "flavorName": "Blue Razz Cherry"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "N^S",
+      "flavorName": "Blue Razz Gummy"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "N^X",
+      "flavorName": "Blue Razz Lemonade"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "N_^",
+      "flavorName": "Blue Sour Raspberry"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "N^*",
+      "flavorName": "Blueberry Raspberry"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "OU%",
+      "flavorName": "Cherry Ice"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "O_^",
+      "flavorName": "cherry sour raspberry"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "OX&",
+      "flavorName": "Cola Lime"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "POU",
+      "flavorName": "Dark cherry ice"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "RO%",
+      "flavorName": "fizzy cherry"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "RY#",
+      "flavorName": "Fresh Mint"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "S&Y",
+      "flavorName": "Grape"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "SN(",
+      "flavorName": "Grape Berry"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "SN^",
+      "flavorName": "gummy bear"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "TN%",
+      "flavorName": "Hub bub"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "V\\@",
+      "flavorName": "Juicy Peach"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "XX&",
+      "flavorName": "Lemon Lime"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "Y*]",
+      "flavorName": "Menthol"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "YN$",
+      "flavorName": "Mr blue"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "[%W",
+      "flavorName": "oasis"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "\\U#",
+      "flavorName": "Pineapple Ice"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "^^&",
+      "flavorName": "Rhubarb Raspberry"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "_UO",
+      "flavorName": "strawberry ice cream"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "_^O",
+      "flavorName": "strawberry raspberry cherry"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "_c$",
+      "flavorName": "Strawberry Watermelon"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "8Y$",
+      "flavorName": "Triple Mango"
+    },
+    {
+      "productCode": "PNS14",
+      "flavorCode": "cU^",
+      "flavorName": "Watermelon Ice"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "NU(",
+      "flavorName": "Banana ice"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "NN^",
+      "flavorName": "black blueberry"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "NY&",
+      "flavorName": "Blackcurrant Menthol"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "N^O",
+      "flavorName": "Blue Razz Cherry"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "N^S",
+      "flavorName": "Blue Razz Gummy"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "N^X",
+      "flavorName": "Blue Razz Lemonade"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "N_^",
+      "flavorName": "Blue Sour Raspberry"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "N^*",
+      "flavorName": "Blueberry Raspberry"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "OU%",
+      "flavorName": "Cherry Ice"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "O_^",
+      "flavorName": "cherry sour raspberry"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "OX&",
+      "flavorName": "Cola Lime"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "POU",
+      "flavorName": "Dark cherry ice"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "RO%",
+      "flavorName": "fizzy cherry"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "RY#",
+      "flavorName": "Fresh Mint"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "S&Y",
+      "flavorName": "Grape"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "SN(",
+      "flavorName": "Grape Berry"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "SN^",
+      "flavorName": "gummy bear"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "TN%",
+      "flavorName": "Hub bub"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "V\\@",
+      "flavorName": "Juicy Peach"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "XX&",
+      "flavorName": "Lemon Lime"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "Y*]",
+      "flavorName": "Menthol"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "YN$",
+      "flavorName": "Mr blue"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "[%W",
+      "flavorName": "oasis"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "\\U#",
+      "flavorName": "Pineapple Ice"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "^^&",
+      "flavorName": "Rhubarb Raspberry"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "_UO",
+      "flavorName": "strawberry ice cream"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "_^O",
+      "flavorName": "strawberry raspberry cherry"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "_c$",
+      "flavorName": "Strawberry Watermelon"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "8Y$",
+      "flavorName": "Triple Mango"
+    },
+    {
+      "productCode": "PNS24",
+      "flavorCode": "cU^",
+      "flavorName": "Watermelon Ice"
+    }
+  ]
+}

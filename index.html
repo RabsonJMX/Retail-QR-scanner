@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#111827" />
+    <title>PIXL 门店扫码</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">P</span><span>PIXL Scan</span></div>
+      <button id="export-button" class="quiet-button" type="button">导出记录</button>
+    </header>
+
+    <main class="shell">
+      <section class="hero">
+        <p class="eyebrow">RETAIL INCENTIVE</p>
+        <h1>每一盒，只计一次。</h1>
+        <p>选择门店后扫描产品二维码。有效商品自动入账，重复二维码不会增加计数。</p>
+      </section>
+
+      <section class="store-panel card">
+        <div>
+          <span class="label">当前门店</span>
+          <select id="store-select" aria-label="选择门店"></select>
+        </div>
+        <button id="new-store-button" class="secondary-button" type="button">+ 新建门店</button>
+      </section>
+
+      <section id="empty-state" class="empty-state card">
+        <div class="empty-icon">店</div>
+        <h2>先创建一家门店</h2>
+        <p>扫码结果会记入当前门店档案。</p>
+        <button id="empty-new-store" class="primary-button" type="button">创建门店档案</button>
+      </section>
+
+      <div id="workspace" hidden>
+        <section class="stats-grid">
+          <article class="stat card"><span>有效扫码</span><strong id="total-count">0</strong><small>盒</small></article>
+          <article class="stat card"><span>今日新增</span><strong id="today-count">0</strong><small>盒</small></article>
+          <article class="stat card"><span>产品种类</span><strong id="product-count">0</strong><small>类</small></article>
+        </section>
+
+        <section class="scanner-card card">
+          <div class="section-heading">
+            <div><span class="label">二维码扫描</span><h2 id="scanner-title">准备扫描</h2></div>
+            <span id="camera-status" class="status-pill">相机未启动</span>
+          </div>
+          <div class="camera-frame">
+            <video id="camera" playsinline muted></video>
+            <div class="scan-window" aria-hidden="true"><i></i></div>
+            <div id="camera-placeholder" class="camera-placeholder">
+              <div class="camera-icon"></div><p>点击下方按钮开启后置相机</p>
+            </div>
+          </div>
+          <div id="scan-feedback" class="feedback neutral" role="status">等待扫码</div>
+          <button id="camera-button" class="primary-button full" type="button">开启相机扫码</button>
+          <details class="manual-entry">
+            <summary>无法使用相机？手动输入测试</summary>
+            <form id="manual-form">
+              <input id="manual-code" autocomplete="off" maxlength="100" placeholder="输入二维码完整内容" />
+              <button class="secondary-button" type="submit">验证并计数</button>
+            </form>
+          </details>
+        </section>
+
+        <section class="card records-card">
+          <div class="section-heading">
+            <div><span class="label">门店档案</span><h2 id="store-name">扫码记录</h2></div>
+            <button id="edit-store-button" class="text-button" type="button">编辑资料</button>
+          </div>
+          <div id="store-meta" class="store-meta"></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>时间</th><th>产品</th><th>口味</th><th>二维码尾号</th></tr></thead>
+              <tbody id="scan-list"></tbody>
+            </table>
+          </div>
+          <p id="no-records" class="no-records">这家门店还没有有效扫码。</p>
+        </section>
+      </div>
+    </main>
+
+    <dialog id="store-dialog">
+      <form id="store-form" method="dialog">
+        <div class="dialog-heading"><div><span class="label">门店档案</span><h2 id="dialog-title">新建门店</h2></div><button class="close-button" value="cancel" aria-label="关闭">×</button></div>
+        <input id="store-id" type="hidden" />
+        <label>门店名称 *<input id="store-name-input" required maxlength="80" placeholder="例如：Soho Vape Store" /></label>
+        <label>门店编号<input id="store-code-input" maxlength="40" placeholder="例如：UK-001" /></label>
+        <label>地址<input id="store-address-input" maxlength="160" placeholder="门店地址" /></label>
+        <label>联系人<input id="store-contact-input" maxlength="80" placeholder="姓名或电话" /></label>
+        <div class="dialog-actions"><button class="quiet-button" value="cancel" type="button" id="cancel-store">取消</button><button class="primary-button" type="submit">保存档案</button></div>
+      </form>
+    </dialog>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
