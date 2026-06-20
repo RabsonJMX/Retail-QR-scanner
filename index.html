@@ -48,14 +48,18 @@
             <span id="camera-status" class="status-pill">相机未启动</span>
           </div>
           <div class="camera-frame">
-            <video id="camera" playsinline muted></video>
+            <div id="reader" aria-label="二维码相机画面"></div>
             <div class="scan-window" aria-hidden="true"><i></i></div>
             <div id="camera-placeholder" class="camera-placeholder">
               <div class="camera-icon"></div><p>点击下方按钮开启后置相机</p>
             </div>
           </div>
           <div id="scan-feedback" class="feedback neutral" role="status">等待扫码</div>
-          <button id="camera-button" class="primary-button full" type="button">开启相机扫码</button>
+          <div class="scanner-actions">
+            <button id="camera-button" class="primary-button" type="button">开启相机扫码</button>
+            <button id="capture-button" class="secondary-button" type="button">拍照识别</button>
+            <input id="image-input" type="file" accept="image/*" capture="environment" hidden />
+          </div>
           <details class="manual-entry">
             <summary>无法使用相机？手动输入测试</summary>
             <form id="manual-form">
@@ -94,6 +98,7 @@
       </form>
     </dialog>
 
+    <script src="./vendor/html5-qrcode.min.js"></script>
     <script type="module" src="./app.js"></script>
   </body>
 </html>

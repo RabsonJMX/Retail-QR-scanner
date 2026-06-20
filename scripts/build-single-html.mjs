@@ -5,9 +5,10 @@ import { fileURLToPath } from "node:url";
 const root = fileURLToPath(new URL("..", import.meta.url));
 const read = (file) => fs.readFile(path.join(root, file), "utf8");
 
-const [html, styles, dbSource, rulesSource, appSource, catalogText] = await Promise.all([
+const [html, styles, vendor, dbSource, rulesSource, appSource, catalogText] = await Promise.all([
   read("index.html"),
   read("styles.css"),
+  read("vendor/html5-qrcode.min.js"),
   read("db.js"),
   read("qr-rules.js"),
   read("app.js"),
@@ -26,10 +27,11 @@ const script = `const EMBEDDED_CATALOG = ${catalogText.trim()};\n${db}\n${rules}
 
 const output = html
   .replace('    <link rel="stylesheet" href="./styles.css" />', `    <style>\n${styles}\n    </style>`)
+  .replace('    <script src="./vendor/html5-qrcode.min.js"></script>', `    <script>\n${vendor}\n    </script>`)
   .replace('    <script type="module" src="./app.js"></script>', `    <script>\n${script}\n    </script>`)
   .replace("<title>PIXL 门店扫码</title>", "<title>PIXL 门店扫码 - 单文件版</title>");
 
-const destination = path.join(root, "PIXL门店扫码.html");
+const destination = path.join(root, "门店扫码.html");
 new Function(script);
 if (/<script[^>]+src=|<link[^>]+stylesheet|fetch\("\.\/data\//.test(output)) {
   throw new Error("Standalone output still contains an external dependency");

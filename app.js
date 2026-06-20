@@ -7,8 +7,9 @@ const elements = {
   storeForm: $("#store-form"), storeId: $("#store-id"), nameInput: $("#store-name-input"), codeInput: $("#store-code-input"),
   addressInput: $("#store-address-input"), contactInput: $("#store-contact-input"), dialogTitle: $("#dialog-title"),
   total: $("#total-count"), today: $("#today-count"), products: $("#product-count"), storeName: $("#store-name"),
-  storeMeta: $("#store-meta"), scanList: $("#scan-list"), noRecords: $("#no-records"), video: $("#camera"),
+  storeMeta: $("#store-meta"), scanList: $("#scan-list"), noRecords: $("#no-records"), reader: $("#reader"),
   cameraButton: $("#camera-button"), cameraStatus: $("#camera-status"), cameraPlaceholder: $("#camera-placeholder"),
+  captureButton: $("#capture-button"), imageInput: $("#image-input"),
   feedback: $("#scan-feedback"), manualForm: $("#manual-form"), manualCode: $("#manual-code"),
 };
 
@@ -16,8 +17,7 @@ let db;
 let catalog;
 let stores = [];
 let currentStoreId = localStorage.getItem("pixl-current-store") || "";
-let stream = null;
-let detector = null;
+let scanner = null;
 let scanning = false;
 let lastDetected = { code: "", at: 0 };
 
@@ -39,6 +39,8 @@ function bindEvents() {
     await renderCurrentStore();
   });
   elements.cameraButton.addEventListener("click", toggleCamera);
+  elements.captureButton.addEventListener("click", () => elements.imageInput.click());
+  elements.imageInput.addEventListener("change", scanImage);
   elements.manualForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     await handleCode(elements.manualCode.value);
@@ -111,52 +113,91 @@ async function renderCurrentStore() {
 }
 
 async function toggleCamera() {
-  if (stream) return stopCamera();
-  if (!("BarcodeDetector" in window)) {
-    setFeedback("error", "此浏览器不支持实时识码，请用最新版 Chrome 或手动输入。", "不支持相机识码");
+  if (scanning) return stopCamera();
+  if (!navigator.mediaDevices?.getUserMedia || !window.Html5Qrcode) {
+    setFeedback("error", "请使用 Safari、Chrome、Firefox 或 Edge 的最新版本，并通过 HTTPS 打开。", "浏览器不支持相机");
     return;
   }
   try {
-    const formats = await BarcodeDetector.getSupportedFormats();
-    if (!formats.includes("qr_code")) throw new Error("QR format unavailable");
-    detector = new BarcodeDetector({ formats: ["qr_code"] });
-    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" } }, audio: false });
-    elements.video.srcObject = stream;
-    await elements.video.play();
+    scanner ||= new Html5Qrcode("reader", {
+      formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
+      verbose: false,
+    });
+    await scanner.start(
+      { facingMode: "environment" },
+      {
+        fps: 10,
+        qrbox: (width, height) => {
+          const edge = Math.floor(Math.min(width, height) * 0.72);
+          return { width: edge, height: edge };
+        },
+        aspectRatio: 1,
+        disableFlip: false,
+      },
+      onDecoded,
+      () => {},
+    );
+    scanning = true;
     elements.cameraPlaceholder.hidden = true;
     elements.cameraButton.textContent = "停止扫码";
     elements.cameraStatus.textContent = "正在扫描";
     elements.cameraStatus.classList.add("live");
-    scanning = true;
-    scanFrame();
   } catch (error) {
-    setFeedback("error", "无法开启相机，请检查浏览器权限。", "相机不可用");
-    stopCamera();
+    console.error(error);
+    setFeedback("error", cameraErrorMessage(error), "相机不可用");
+    await stopCamera();
   }
 }
 
-async function scanFrame() {
-  if (!scanning || !detector) return;
-  try {
-    const codes = await detector.detect(elements.video);
-    const value = codes[0]?.rawValue;
-    if (value && (value !== lastDetected.code || Date.now() - lastDetected.at > 3000)) {
-      lastDetected = { code: value, at: Date.now() };
-      await handleCode(value);
-    }
-  } catch (_) {}
-  if (scanning) requestAnimationFrame(scanFrame);
+async function onDecoded(value) {
+  if (!value || (value === lastDetected.code && Date.now() - lastDetected.at <= 3000)) return;
+  lastDetected = { code: value, at: Date.now() };
+  await handleCode(value);
 }
 
-function stopCamera() {
+async function stopCamera() {
+  const wasScanning = scanning;
   scanning = false;
-  stream?.getTracks().forEach((track) => track.stop());
-  stream = null;
-  elements.video.srcObject = null;
+  if (wasScanning && scanner) {
+    try { await scanner.stop(); } catch (_) {}
+  }
+  try { scanner?.clear(); } catch (_) {}
   elements.cameraPlaceholder.hidden = false;
   elements.cameraButton.textContent = "开启相机扫码";
   elements.cameraStatus.textContent = "相机未启动";
   elements.cameraStatus.classList.remove("live");
+}
+
+async function scanImage(event) {
+  const file = event.target.files?.[0];
+  event.target.value = "";
+  if (!file) return;
+  if (!window.Html5Qrcode) return setFeedback("error", "二维码识别组件未加载。", "无法识别");
+  await stopCamera();
+  try {
+    scanner ||= new Html5Qrcode("reader", {
+      formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
+      verbose: false,
+    });
+    elements.cameraPlaceholder.hidden = true;
+    elements.cameraStatus.textContent = "正在识别照片";
+    const value = await scanner.scanFile(file, true);
+    await onDecoded(value);
+  } catch (error) {
+    setFeedback("error", "照片中没有识别到清晰的二维码，请重新拍摄。", "未识别到二维码");
+  } finally {
+    try { scanner?.clear(); } catch (_) {}
+    elements.cameraPlaceholder.hidden = false;
+    elements.cameraStatus.textContent = "相机未启动";
+  }
+}
+
+function cameraErrorMessage(error) {
+  const message = String(error?.message || error || "");
+  if (/NotAllowed|Permission|denied/i.test(message)) return "相机权限被拒绝，请在浏览器网站设置中允许相机后重试。";
+  if (/NotFound|DevicesNotFound/i.test(message)) return "没有找到可用相机。";
+  if (!window.isSecureContext) return "相机需要 HTTPS 安全网址，请通过 GitHub Pages 打开。";
+  return "无法开启相机，请关闭其他占用相机的应用后重试。";
 }
 
 async function handleCode(rawValue) {
