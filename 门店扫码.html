@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#111827" />
-    <title>PIXL 门店扫码 - 单文件版</title>
+    <title>门店扫码 - 单文件版</title>
     <style>
 :root { color-scheme: light; --ink:#101828; --muted:#667085; --line:#e4e7ec; --paper:#fff; --wash:#f6f7f9; --lime:#c8ff38; --purple:#7347d8; --success:#087a52; --danger:#b42318; font-family: Inter, "Segoe UI", "Microsoft YaHei", sans-serif; }
 * { box-sizing:border-box; }
@@ -55,7 +55,7 @@ dialog { width:min(520px,calc(100% - 28px)); padding:0; border:0; border-radius:
   </head>
   <body>
     <header class="topbar">
-      <div class="brand"><span class="brand-mark">P</span><span>PIXL Scan</span></div>
+      <div class="brand"><span class="brand-mark">P</span><span>Scan</span></div>
       <button id="export-button" class="quiet-button" type="button">导出记录</button>
     </header>
 
@@ -1386,7 +1386,7 @@ async function refreshStores() {
   stores = (await getAll(db, "stores")).sort((a, b) => a.name.localeCompare(b.name));
   if (!stores.some((store) => store.id === currentStoreId)) currentStoreId = stores[0]?.id || "";
   elements.storeSelect.innerHTML = stores.length
-    ? stores.map((store) => `<option value="${escapeHtml(store.id)}">${escapeHtml(store.name)}</option>`).join("")
+    ? stores.map((store) => `<option value="${escapeHtml(store.id)}">${escapeHtml(publicText(store.name))}</option>`).join("")
     : '<option value="">暂无门店</option>';
   elements.storeSelect.value = currentStoreId;
   elements.empty.hidden = stores.length > 0;
@@ -1434,13 +1434,13 @@ async function renderCurrentStore() {
   if (!currentStoreId || !db) return;
   const store = stores.find((item) => item.id === currentStoreId);
   const scans = (await getByIndex(db, "scans", "storeId", currentStoreId)).sort((a, b) => b.scannedAt.localeCompare(a.scannedAt));
-  elements.storeName.textContent = store.name;
-  elements.storeMeta.textContent = [store.code, store.address, store.contact].filter(Boolean).join(" · ") || "尚未填写门店详情";
+  elements.storeName.textContent = publicText(store.name);
+  elements.storeMeta.textContent = [store.code, store.address, store.contact].map(publicText).filter(Boolean).join(" · ") || "尚未填写门店详情";
   elements.total.textContent = scans.length.toLocaleString("zh-CN");
   const todayKey = new Date().toLocaleDateString("en-CA");
   elements.today.textContent = scans.filter((scan) => new Date(scan.scannedAt).toLocaleDateString("en-CA") === todayKey).length.toLocaleString("zh-CN");
   elements.products.textContent = new Set(scans.map((scan) => scan.productCode)).size;
-  elements.scanList.innerHTML = scans.slice(0, 100).map((scan) => `<tr><td>${formatDate(scan.scannedAt)}</td><td><strong>${escapeHtml(scan.productName)}</strong><small>${escapeHtml(scan.productCode)}</small></td><td>${escapeHtml(scan.flavorName)}</td><td>…${escapeHtml(scan.code.slice(-6))}</td></tr>`).join("");
+  elements.scanList.innerHTML = scans.slice(0, 100).map((scan) => `<tr><td>${formatDate(scan.scannedAt)}</td><td><strong>${escapeHtml(publicText(scan.productName))}</strong><small>${escapeHtml(scan.productCode)}</small></td><td>${escapeHtml(scan.flavorName)}</td><td>…${escapeHtml(scan.code.slice(-6))}</td></tr>`).join("");
   elements.noRecords.hidden = scans.length > 0;
   currentReportText = createStoreReport(store, scans);
 }
@@ -1550,7 +1550,7 @@ async function handleCode(rawValue) {
   }
   try {
     await add(db, "scans", { code: result.value, storeId: currentStoreId, scannedAt: new Date().toISOString(), ...result });
-    setFeedback("success", `${result.productName} · ${result.flavorName}`, "计数成功 +1");
+    setFeedback("success", `${publicText(result.productName)} · ${publicText(result.flavorName)}`, "计数成功 +1");
     vibrate(80);
     await renderCurrentStore();
   } catch (error) {
@@ -1564,23 +1564,23 @@ function createStoreReport(store, scans) {
   const todayCount = scans.filter((scan) => new Date(scan.scannedAt).toLocaleDateString("en-CA") === todayKey).length;
   const summary = new Map();
   for (const scan of scans) {
-    const key = `${scan.productName} · ${scan.flavorName}`;
+    const key = `${publicText(scan.productName)} · ${publicText(scan.flavorName)}`;
     summary.set(key, (summary.get(key) || 0) + 1);
   }
   const productLines = [...summary.entries()]
     .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
     .map(([name, count]) => `- ${name}: ${count}盒`);
   const recentLines = scans.slice(0, 20).map((scan) =>
-    `- ${formatShareDate(scan.scannedAt)} | ${scan.productName} · ${scan.flavorName} | 尾号…${scan.code.slice(-6)}`,
+    `- ${formatShareDate(scan.scannedAt)} | ${publicText(scan.productName)} · ${publicText(scan.flavorName)} | 尾号…${scan.code.slice(-6)}`,
   );
   return [
-    "PIXL 门店扫码报告",
+    "门店扫码报告",
     `生成时间：${new Date().toLocaleString("zh-CN")}`,
     "",
-    `门店：${store.name}`,
-    store.code && `门店编号：${store.code}`,
-    store.address && `地址：${store.address}`,
-    store.contact && `联系人：${store.contact}`,
+    `门店：${publicText(store.name)}`,
+    store.code && `门店编号：${publicText(store.code)}`,
+    store.address && `地址：${publicText(store.address)}`,
+    store.contact && `联系人：${publicText(store.contact)}`,
     "",
     `累计有效扫码：${scans.length}盒`,
     `今日新增：${todayCount}盒`,
@@ -1605,7 +1605,7 @@ async function shareCurrentStore() {
   const store = stores.find((item) => item.id === currentStoreId);
   if (navigator.share) {
     try {
-      await navigator.share({ title: `${store?.name || "PIXL门店"}扫码报告`, text: currentReportText });
+      await navigator.share({ title: `${publicText(store?.name) || "门店"}扫码报告`, text: currentReportText });
       flashActionButton(elements.shareButton, "已转发");
       return;
     } catch (error) {
@@ -1655,12 +1655,12 @@ async function exportRecords() {
   const rows = [["门店名称", "门店编号", "扫码时间", "产品码", "产品名称", "口味码", "口味名称", "生产时间", "完整二维码"]];
   for (const scan of scans.sort((a, b) => a.scannedAt.localeCompare(b.scannedAt))) {
     const store = stores.find((item) => item.id === scan.storeId) || {};
-    rows.push([store.name, store.code, scan.scannedAt, scan.productCode, scan.productName, scan.flavorCode, scan.flavorName, scan.producedAt, scan.code]);
+    rows.push([publicText(store.name), publicText(store.code), scan.scannedAt, scan.productCode, publicText(scan.productName), scan.flavorCode, publicText(scan.flavorName), scan.producedAt, scan.code]);
   }
   const csv = rows.map((row) => row.map(csvCell).join(",")).join("\r\n");
   const link = document.createElement("a");
   link.href = URL.createObjectURL(new Blob(["\ufeff", csv], { type: "text/csv;charset=utf-8" }));
-  link.download = `PIXL扫码记录-${new Date().toLocaleDateString("en-CA")}.csv`;
+  link.download = `扫码记录-${new Date().toLocaleDateString("en-CA")}.csv`;
   link.click();
   URL.revokeObjectURL(link.href);
 }
@@ -1670,6 +1670,7 @@ function setFeedback(type, detail, title) {
   elements.feedback.innerHTML = `<strong>${escapeHtml(title)}</strong><span>${escapeHtml(detail)}</span>`;
 }
 function formatDate(value) { return new Intl.DateTimeFormat("zh-CN", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" }).format(new Date(value)); }
+function publicText(value) { return String(value ?? "").replace(/PIXL/gi, "").replace(/\s{2,}/g, " ").trim(); }
 function escapeHtml(value) { return String(value ?? "").replace(/[&<>"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[char]); }
 function csvCell(value) { return `"${String(value ?? "").replaceAll('"', '""')}"`; }
 function vibrate(pattern) { navigator.vibrate?.(pattern); }

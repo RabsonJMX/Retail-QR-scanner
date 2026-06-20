@@ -29,7 +29,7 @@ const output = html
   .replace('    <link rel="stylesheet" href="./styles.css" />', `    <style>\n${styles}\n    </style>`)
   .replace('    <script src="./vendor/html5-qrcode.min.js"></script>', `    <script>\n${vendor}\n    </script>`)
   .replace('    <script type="module" src="./app.js"></script>', `    <script>\n${script}\n    </script>`)
-  .replace("<title>PIXL 门店扫码</title>", "<title>PIXL 门店扫码 - 单文件版</title>");
+  .replace("<title>门店扫码</title>", "<title>门店扫码 - 单文件版</title>");
 
 const destination = path.join(root, "门店扫码.html");
 new Function(script);
