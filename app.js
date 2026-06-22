@@ -8,7 +8,7 @@ const messages = {
     pageTitle: "门店扫码", guide: "操作指南", export: "导出记录", heroTitle: "每一盒，只计一次。", heroText: "选择门店后扫描产品二维码。有效商品自动入账，重复二维码不会增加计数。",
     currentStore: "当前门店", selectStore: "选择门店", copy: "复制", share: "转发", newStore: "+ 新建门店", emptyTitle: "先创建一家门店", emptyText: "扫码结果会记入当前门店档案。", createStore: "创建门店档案",
     validScans: "有效扫码", today: "今日新增", productTypes: "产品种类", boxes: "盒", types: "类", pointsRebate: "积分与返利", currentBatch: "当前批次", waiting: "等待扫码", batchPoints: "本批积分", pointRule: "分（每盒 1 分）", rebate: "20% 返利", pricedSales: "计价销售额 {amount}", submitBatch: "提交本批并计算返利",
-    qrScan: "二维码扫描", ready: "准备扫描", cameraOff: "相机未启动", cameraView: "二维码相机画面", cameraHint: "点击下方按钮开启后置相机", startCamera: "开启相机扫码", stopCamera: "停止扫码", capture: "拍照识别", manualSummary: "无法使用相机？手动输入测试", manualPlaceholder: "输入二维码完整内容", validateCount: "验证并计数",
+    qrScan: "二维码扫描", ready: "准备扫描", cameraOff: "相机未启动", cameraView: "二维码相机画面", cameraHint: "点击下方按钮开启后置相机", startCamera: "开启相机扫码", stopCamera: "停止扫码", capture: "高清拍照识别", manualSummary: "无法使用相机？手动输入测试", manualPlaceholder: "输入二维码完整内容", validateCount: "验证并计数", cameraQualityTitle: "1cm 小码增强已启用", cameraQualityDetail: "{resolution}{zoom} · 请保持约 10–15cm 距离，并让二维码至少占绿色框的 1/4", enhancingPhoto: "正在增强小尺寸二维码", cameraSelectLabel: "选择摄像头", focusUnavailableTitle: "当前镜头无法近距离对焦", focusUnavailableDetail: "{resolution} · 请切换到超广角/微距镜头，或使用手机及高清拍照识别",
     storeProfile: "门店档案", scanRecords: "扫码记录", edit: "编辑资料", time: "时间", product: "产品", flavor: "口味", qrTail: "二维码尾号", noRecords: "这家门店还没有有效扫码。",
     newStoreTitle: "新建门店", editStoreTitle: "编辑门店", storeName: "门店名称 *", storeNameExample: "例如：Soho Vape Store", postcode: "邮编（选填）", postcodeExample: "例如：SW1A 1AA", postcodeError: "请输入有效的英国邮编，例如 SW1A 1AA。", decisionMaker: "决策人名称（选填）", namePlaceholder: "姓名", contact: "联系方式（选填）", contactPlaceholder: "电话、WhatsApp 或邮箱", cancel: "取消", save: "保存档案", close: "关闭", notProvided: "未填写",
     preScan: "开始扫码前确认", storeCorrect: "店铺信息是否正确？", scanIntoStore: "本次扫码将计入以上店铺。", confirmStart: "确认并开始扫码",
@@ -21,7 +21,7 @@ const messages = {
     pageTitle: "Store Scanner", guide: "Guide", export: "Export", heroTitle: "Every box counts once.", heroText: "Select a store and scan product QR codes. Valid products are recorded automatically; duplicate codes are never counted twice.",
     currentStore: "Current store", selectStore: "Select store", copy: "Copy", share: "Share", newStore: "+ New store", emptyTitle: "Create your first store", emptyText: "Scan results will be saved to the current store profile.", createStore: "Create store profile",
     validScans: "Valid scans", today: "Added today", productTypes: "Product types", boxes: "boxes", types: "types", pointsRebate: "Points & rebate", currentBatch: "Current batch", waiting: "Waiting for scans", batchPoints: "Batch points", pointRule: "points (1 per box)", rebate: "20% rebate", pricedSales: "Eligible sales {amount}", submitBatch: "Submit batch and calculate rebate",
-    qrScan: "QR scanner", ready: "Ready to scan", cameraOff: "Camera off", cameraView: "QR camera view", cameraHint: "Tap below to open the rear camera", startCamera: "Start camera scan", stopCamera: "Stop scanning", capture: "Scan photo", manualSummary: "Camera unavailable? Enter a test code", manualPlaceholder: "Enter the complete QR code", validateCount: "Validate and count",
+    qrScan: "QR scanner", ready: "Ready to scan", cameraOff: "Camera off", cameraView: "QR camera view", cameraHint: "Tap below to open the rear camera", startCamera: "Start camera scan", stopCamera: "Stop scanning", capture: "Scan high-res photo", manualSummary: "Camera unavailable? Enter a test code", manualPlaceholder: "Enter the complete QR code", validateCount: "Validate and count", cameraQualityTitle: "1cm QR enhancement enabled", cameraQualityDetail: "{resolution}{zoom} · Hold 10–15cm away and fill at least one-quarter of the green frame", enhancingPhoto: "Enhancing small QR code", cameraSelectLabel: "Choose camera", focusUnavailableTitle: "This camera cannot focus this close", focusUnavailableDetail: "{resolution} · Switch to an ultra-wide/macro camera, or use a phone or high-resolution photo",
     storeProfile: "Store profile", scanRecords: "Scan records", edit: "Edit details", time: "Time", product: "Product", flavor: "Flavour", qrTail: "QR code ending", noRecords: "No valid scans for this store yet.",
     newStoreTitle: "New store", editStoreTitle: "Edit store", storeName: "Store name *", storeNameExample: "e.g. Soho Vape Store", postcode: "Postcode (optional)", postcodeExample: "e.g. SW1A 1AA", postcodeError: "Enter a valid UK postcode, for example SW1A 1AA.", decisionMaker: "Decision maker (optional)", namePlaceholder: "Name", contact: "Contact details (optional)", contactPlaceholder: "Phone, WhatsApp or email", cancel: "Cancel", save: "Save profile", close: "Close", notProvided: "Not provided",
     preScan: "Confirm before scanning", storeCorrect: "Is this the correct store?", scanIntoStore: "Scans in this session will be assigned to this store.", confirmStart: "Confirm and start scanning",
@@ -46,6 +46,7 @@ const elements = {
   copyButton: $("#copy-store-button"), shareButton: $("#share-store-button"),
   cameraButton: $("#camera-button"), cameraStatus: $("#camera-status"), cameraPlaceholder: $("#camera-placeholder"),
   captureButton: $("#capture-button"), imageInput: $("#image-input"),
+  cameraPicker: $("#camera-picker"), cameraSelect: $("#camera-select"),
   feedback: $("#scan-feedback"), manualForm: $("#manual-form"), manualCode: $("#manual-code"),
   confirmDialog: $("#store-confirm-dialog"), confirmStoreName: $("#confirm-store-name"), confirmStorePostcode: $("#confirm-store-postcode"),
   batchStatus: $("#batch-status"), batchPoints: $("#batch-points"), batchKitCount: $("#batch-kit-count"),
@@ -58,7 +59,12 @@ let catalog;
 let stores = [];
 let currentStoreId = localStorage.getItem("pixl-current-store") || "";
 let scanner = null;
+let detailScanner = null;
+let cameraDevices = [];
+let selectedCameraId = localStorage.getItem("pixl-camera-id") || "";
 let scanning = false;
+let detailScanTimer = 0;
+let detailScanBusy = false;
 let lastDetected = { code: "", at: 0 };
 let currentReportText = "";
 
@@ -97,6 +103,7 @@ function bindEvents() {
   elements.cameraButton.addEventListener("click", toggleCamera);
   elements.captureButton.addEventListener("click", () => elements.imageInput.click());
   elements.imageInput.addEventListener("change", scanImage);
+  elements.cameraSelect.addEventListener("change", changeCamera);
   elements.manualForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     await handleCode(elements.manualCode.value);
@@ -131,7 +138,7 @@ async function applyLanguage(rerender = true) {
     [".stats-grid .stat:nth-child(1) span", "validScans"], [".stats-grid .stat:nth-child(2) span", "today"], [".stats-grid .stat:nth-child(3) span", "productTypes"],
     [".stats-grid .stat:nth-child(1) small", "boxes"], [".stats-grid .stat:nth-child(2) small", "boxes"], [".stats-grid .stat:nth-child(3) small", "types"],
     [".batch-card .section-heading .label", "pointsRebate"], [".batch-card .section-heading h2", "currentBatch"], [".batch-grid>div:nth-child(1) span", "batchPoints"], [".batch-grid>div:nth-child(1) small", "pointRule"], [".rebate-total span", "rebate"], ["#submit-batch-button", "submitBatch"],
-    [".scanner-card .section-heading .label", "qrScan"], ["#scanner-title", "ready"], [".camera-placeholder p", "cameraHint"], ["#capture-button", "capture"], [".manual-entry summary", "manualSummary"], ["#manual-form button", "validateCount"],
+    [".scanner-card .section-heading .label", "qrScan"], ["#scanner-title", "ready"], [".camera-placeholder p", "cameraHint"], ["#capture-button", "capture"], ["#camera-picker span", "cameraSelectLabel"], [".manual-entry summary", "manualSummary"], ["#manual-form button", "validateCount"],
     [".records-card .section-heading .label", "storeProfile"], ["#edit-store-button", "edit"], ["table th:nth-child(1)", "time"], ["table th:nth-child(2)", "product"], ["table th:nth-child(3)", "flavor"], ["table th:nth-child(4)", "qrTail"], ["#no-records", "noRecords"],
     ["#postcode-error", "postcodeError"], ["#cancel-store", "cancel"], ["#store-form .dialog-actions .primary-button", "save"],
     ["#store-confirm-dialog .label", "preScan"], ["#store-confirm-dialog h2", "storeCorrect"], ["#store-confirm-dialog .confirm-hint", "scanIntoStore"], ["#store-confirm-dialog .quiet-button", "cancel"], ["#store-confirm-dialog .primary-button", "confirmStart"],
@@ -302,22 +309,30 @@ async function toggleCamera() {
     return;
   }
   try {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false });
+    const stream = await navigator.mediaDevices.getUserMedia({ video: cameraConstraints(), audio: false });
     stream.getTracks().forEach((track) => track.stop());
+    await loadCameraDevices();
     if (!(await confirmCurrentStore())) return;
-    scanner ||= new Html5Qrcode("reader", {
-      formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
-      verbose: false,
-    });
-    await scanner.start(
-      { facingMode: "environment" },
+    await startCameraSession();
+  } catch (error) {
+    console.error(error);
+    setFeedback("error", cameraErrorMessage(error), t("cameraUnavailable"));
+    await stopCamera();
+  }
+}
+
+async function startCameraSession() {
+  scanner ||= createScanner();
+  const cameraTarget = selectedCameraId || { facingMode: "environment" };
+  await scanner.start(
+      cameraTarget,
       {
-        fps: 10,
+        fps: 15,
+        videoConstraints: cameraConstraints(selectedCameraId),
         qrbox: (width, height) => {
-          const edge = Math.floor(Math.min(width, height) * 0.72);
+          const edge = Math.floor(Math.min(width, height) * 0.82);
           return { width: edge, height: edge };
         },
-        aspectRatio: 1,
         disableFlip: false,
       },
       onDecoded,
@@ -328,6 +343,52 @@ async function toggleCamera() {
     elements.cameraButton.textContent = t("stopCamera");
     elements.cameraStatus.textContent = t("scanning");
     elements.cameraStatus.classList.add("live");
+    await optimizeActiveCamera();
+    startDetailScanning();
+}
+
+async function loadCameraDevices() {
+  try {
+    cameraDevices = await Html5Qrcode.getCameras();
+  } catch (_) {
+    cameraDevices = [];
+  }
+  if (!cameraDevices.some((camera) => camera.id === selectedCameraId)) {
+    selectedCameraId = chooseBestCamera(cameraDevices)?.id || "";
+  }
+  renderCameraPicker();
+}
+
+function chooseBestCamera(cameras) {
+  return [...cameras].sort((left, right) => cameraScore(right.label) - cameraScore(left.label))[0];
+}
+
+function cameraScore(label = "") {
+  const name = label.toLowerCase();
+  if (/ultra.?wide|macro|0[.,]5|超广角|微距/.test(name)) return 100;
+  if (/back|rear|environment|后置/.test(name)) return 60;
+  if (/front|user|facetime|前置/.test(name)) return 10;
+  return 30;
+}
+
+function renderCameraPicker() {
+  elements.cameraSelect.replaceChildren(...cameraDevices.map((camera, index) => {
+    const option = document.createElement("option");
+    option.value = camera.id;
+    option.textContent = camera.label || `${t("cameraSelectLabel")} ${index + 1}`;
+    option.selected = camera.id === selectedCameraId;
+    return option;
+  }));
+  elements.cameraPicker.hidden = cameraDevices.length < 2;
+}
+
+async function changeCamera() {
+  selectedCameraId = elements.cameraSelect.value;
+  localStorage.setItem("pixl-camera-id", selectedCameraId);
+  if (!scanning) return;
+  await stopCamera();
+  try {
+    await startCameraSession();
   } catch (error) {
     console.error(error);
     setFeedback("error", cameraErrorMessage(error), t("cameraUnavailable"));
@@ -344,6 +405,7 @@ async function onDecoded(value) {
 async function stopCamera() {
   const wasScanning = scanning;
   scanning = false;
+  stopDetailScanning();
   if (wasScanning && scanner) {
     try { await scanner.stop(); } catch (_) {}
   }
@@ -361,13 +423,10 @@ async function scanImage(event) {
   if (!window.Html5Qrcode) return setFeedback("error", t("componentMissing"), t("identifyFailed"));
   await stopCamera();
   try {
-    scanner ||= new Html5Qrcode("reader", {
-      formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
-      verbose: false,
-    });
+    scanner ||= createScanner();
     elements.cameraPlaceholder.hidden = true;
     elements.cameraStatus.textContent = t("identifying");
-    const value = await scanner.scanFile(file, true);
+    const value = await scanFileWithEnhancement(file);
     await onDecoded(value);
   } catch (error) {
     setFeedback("error", t("noQrDetail"), t("noQrTitle"));
@@ -376,6 +435,69 @@ async function scanImage(event) {
     elements.cameraPlaceholder.hidden = false;
     elements.cameraStatus.textContent = t("cameraOff");
   }
+}
+
+async function scanFileWithEnhancement(file) {
+  try {
+    return await scanner.scanFile(file, true);
+  } catch (originalError) {
+    elements.cameraStatus.textContent = t("enhancingPhoto");
+    const variants = await createScanVariants(file);
+    for (const variant of variants) {
+      if (variant.value) return variant.value;
+      try {
+        return await scanner.scanFile(variant.file, false);
+      } catch (_) {}
+    }
+    throw originalError;
+  }
+}
+
+async function createScanVariants(file) {
+  if (!window.createImageBitmap) return [];
+  let bitmap;
+  try {
+    bitmap = await createImageBitmap(file, { imageOrientation: "from-image" });
+  } catch (_) {
+    try { bitmap = await createImageBitmap(file); } catch (_) { return []; }
+  }
+  const variants = [];
+  const minEdge = Math.min(bitmap.width, bitmap.height);
+  const configs = [
+    { scale: 0.72, contrast: false },
+    { scale: 0.5, contrast: true },
+    { scale: 0.34, contrast: true },
+  ];
+  for (const config of configs) {
+    const cropEdge = Math.max(160, Math.floor(minEdge * config.scale));
+    const sourceX = Math.floor((bitmap.width - cropEdge) / 2);
+    const sourceY = Math.floor((bitmap.height - cropEdge) / 2);
+    const targetEdge = Math.min(1800, Math.max(1000, cropEdge * 3));
+    const canvas = document.createElement("canvas");
+    canvas.width = targetEdge;
+    canvas.height = targetEdge;
+    const context = canvas.getContext("2d", { willReadFrequently: config.contrast });
+    context.imageSmoothingEnabled = true;
+    context.imageSmoothingQuality = "high";
+    context.drawImage(bitmap, sourceX, sourceY, cropEdge, cropEdge, 0, 0, targetEdge, targetEdge);
+    if (config.contrast) enhanceCanvasContrast(context, targetEdge);
+    const value = decodeCanvasWithJsQr(context, targetEdge);
+    const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
+    if (blob) variants.push({ file: new File([blob], `qr-enhanced-${config.scale}.png`, { type: "image/png" }), value });
+  }
+  bitmap.close?.();
+  return variants;
+}
+
+function enhanceCanvasContrast(context, edge) {
+  const image = context.getImageData(0, 0, edge, edge);
+  const pixels = image.data;
+  for (let index = 0; index < pixels.length; index += 4) {
+    const gray = pixels[index] * 0.299 + pixels[index + 1] * 0.587 + pixels[index + 2] * 0.114;
+    const contrasted = Math.max(0, Math.min(255, (gray - 128) * 1.65 + 128));
+    pixels[index] = pixels[index + 1] = pixels[index + 2] = contrasted;
+  }
+  context.putImageData(image, 0, 0);
 }
 
 function cameraErrorMessage(error) {
@@ -507,6 +629,191 @@ async function copyText(text) {
     textarea.select();
     document.execCommand("copy");
     textarea.remove();
+  }
+}
+
+function createScanner() {
+  return new Html5Qrcode("reader", {
+    formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
+    experimentalFeatures: { useBarCodeDetectorIfSupported: true },
+    verbose: false,
+  });
+}
+
+function createDetailScanner() {
+  return new Html5Qrcode("detail-reader", {
+    formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
+    experimentalFeatures: { useBarCodeDetectorIfSupported: true },
+    verbose: false,
+  });
+}
+
+function startDetailScanning() {
+  stopDetailScanning();
+  detailScanTimer = window.setInterval(scanEnhancedVideoFrame, 800);
+}
+
+function stopDetailScanning() {
+  window.clearInterval(detailScanTimer);
+  detailScanTimer = 0;
+  detailScanBusy = false;
+  try { detailScanner?.clear(); } catch (_) {}
+}
+
+async function scanEnhancedVideoFrame() {
+  if (!scanning || detailScanBusy || document.hidden) return;
+  const video = elements.reader.querySelector("video");
+  if (!video || video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA || !video.videoWidth) return;
+  detailScanBusy = true;
+  try {
+    detailScanner ||= createDetailScanner();
+    const variants = await createVideoFrameVariants(video);
+    for (const variant of variants) {
+      if (!scanning) break;
+      if (variant.value) {
+        await onDecoded(variant.value);
+        break;
+      }
+      try {
+        const value = await detailScanner.scanFile(variant.file, false);
+        await onDecoded(value);
+        break;
+      } catch (_) {}
+    }
+  } finally {
+    detailScanBusy = false;
+  }
+}
+
+async function createVideoFrameVariants(video) {
+  const minEdge = Math.min(video.videoWidth, video.videoHeight);
+  const cropEdge = Math.floor(minEdge * 0.86);
+  const sourceX = Math.floor((video.videoWidth - cropEdge) / 2);
+  const sourceY = Math.floor((video.videoHeight - cropEdge) / 2);
+  const targetEdge = Math.min(1600, Math.max(1200, cropEdge * 2));
+  const modes = ["normal", "sharpen", "threshold"];
+  const variants = [];
+  for (const mode of modes) {
+    const canvas = document.createElement("canvas");
+    canvas.width = targetEdge;
+    canvas.height = targetEdge;
+    const context = canvas.getContext("2d", { willReadFrequently: mode !== "normal" });
+    context.imageSmoothingEnabled = true;
+    context.imageSmoothingQuality = "high";
+    context.drawImage(video, sourceX, sourceY, cropEdge, cropEdge, 0, 0, targetEdge, targetEdge);
+    if (mode === "sharpen") sharpenQrCanvas(context, targetEdge);
+    if (mode === "threshold") thresholdQrCanvas(context, targetEdge);
+    const value = decodeCanvasWithJsQr(context, targetEdge);
+    const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
+    if (blob) variants.push({ file: new File([blob], `qr-live-${mode}.png`, { type: "image/png" }), value });
+  }
+  return variants;
+}
+
+function sharpenQrCanvas(context, edge) {
+  const image = context.getImageData(0, 0, edge, edge);
+  const pixels = image.data;
+  const copy = new Uint8ClampedArray(pixels);
+  const row = edge * 4;
+  for (let y = 1; y < edge - 1; y += 1) {
+    for (let x = 1; x < edge - 1; x += 1) {
+      const index = y * row + x * 4;
+      for (let channel = 0; channel < 3; channel += 1) {
+        const value = copy[index + channel] * 5
+          - copy[index - 4 + channel] - copy[index + 4 + channel]
+          - copy[index - row + channel] - copy[index + row + channel];
+        pixels[index + channel] = Math.max(0, Math.min(255, value));
+      }
+    }
+  }
+  context.putImageData(image, 0, 0);
+}
+
+function thresholdQrCanvas(context, edge) {
+  const image = context.getImageData(0, 0, edge, edge);
+  const pixels = image.data;
+  const histogram = new Uint32Array(256);
+  for (let index = 0; index < pixels.length; index += 4) {
+    const gray = Math.round(pixels[index] * 0.299 + pixels[index + 1] * 0.587 + pixels[index + 2] * 0.114);
+    histogram[gray] += 1;
+  }
+  const threshold = otsuThreshold(histogram, edge * edge);
+  for (let index = 0; index < pixels.length; index += 4) {
+    const gray = pixels[index] * 0.299 + pixels[index + 1] * 0.587 + pixels[index + 2] * 0.114;
+    const value = gray >= threshold ? 255 : 0;
+    pixels[index] = pixels[index + 1] = pixels[index + 2] = value;
+  }
+  context.putImageData(image, 0, 0);
+}
+
+function otsuThreshold(histogram, total) {
+  let sum = 0;
+  for (let level = 0; level < histogram.length; level += 1) sum += level * histogram[level];
+  let backgroundWeight = 0;
+  let backgroundSum = 0;
+  let bestVariance = -1;
+  let bestThreshold = 128;
+  for (let level = 0; level < histogram.length; level += 1) {
+    backgroundWeight += histogram[level];
+    if (!backgroundWeight) continue;
+    const foregroundWeight = total - backgroundWeight;
+    if (!foregroundWeight) break;
+    backgroundSum += level * histogram[level];
+    const backgroundMean = backgroundSum / backgroundWeight;
+    const foregroundMean = (sum - backgroundSum) / foregroundWeight;
+    const variance = backgroundWeight * foregroundWeight * (backgroundMean - foregroundMean) ** 2;
+    if (variance > bestVariance) {
+      bestVariance = variance;
+      bestThreshold = level;
+    }
+  }
+  return bestThreshold;
+}
+
+function decodeCanvasWithJsQr(context, edge) {
+  if (typeof window.jsQR !== "function") return "";
+  try {
+    const image = context.getImageData(0, 0, edge, edge);
+    return window.jsQR(image.data, edge, edge, { inversionAttempts: "attemptBoth" })?.data || "";
+  } catch (_) {
+    return "";
+  }
+}
+
+function cameraConstraints(deviceId = "") {
+  const constraints = {
+    width: { ideal: 2560 },
+    height: { ideal: 1440 },
+    frameRate: { ideal: 30, max: 30 },
+  };
+  if (deviceId) constraints.deviceId = { exact: deviceId };
+  else constraints.facingMode = { ideal: "environment" };
+  return constraints;
+}
+
+async function optimizeActiveCamera() {
+  const video = elements.reader.querySelector("video");
+  const track = video?.srcObject?.getVideoTracks?.()[0];
+  if (!track) return;
+  const capabilities = track.getCapabilities?.() || {};
+  const advanced = {};
+  if (Array.isArray(capabilities.focusMode) && capabilities.focusMode.includes("continuous")) {
+    advanced.focusMode = "continuous";
+  }
+  if (capabilities.zoom && Number.isFinite(capabilities.zoom.min) && Number.isFinite(capabilities.zoom.max)) {
+    advanced.zoom = Math.min(capabilities.zoom.max, Math.max(capabilities.zoom.min, 2));
+  }
+  if (Object.keys(advanced).length) {
+    try { await track.applyConstraints({ advanced: [advanced] }); } catch (_) {}
+  }
+  const settings = track.getSettings?.() || {};
+  const resolution = settings.width && settings.height ? `${settings.width}×${settings.height}` : "HD";
+  const zoom = settings.zoom && settings.zoom > 1 ? ` · ${Number(settings.zoom).toFixed(1)}×` : "";
+  const hasFocusControl = Array.isArray(capabilities.focusMode) && capabilities.focusMode.length > 0;
+  if (!hasFocusControl) {
+    setFeedback("duplicate", t("focusUnavailableDetail", { resolution }), t("focusUnavailableTitle"));
+  } else {
+    setFeedback("neutral", t("cameraQualityDetail", { resolution, zoom }), t("cameraQualityTitle"));
   }
 }
 

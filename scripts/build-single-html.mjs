@@ -5,10 +5,11 @@ import { fileURLToPath } from "node:url";
 const root = fileURLToPath(new URL("..", import.meta.url));
 const read = (file) => fs.readFile(path.join(root, file), "utf8");
 
-const [html, styles, vendor, dbSource, rulesSource, incentiveSource, appSource, catalogText] = await Promise.all([
+const [html, styles, vendor, jsQrVendor, dbSource, rulesSource, incentiveSource, appSource, catalogText] = await Promise.all([
   read("index.html"),
   read("styles.css"),
   read("vendor/html5-qrcode.min.js"),
+  read("vendor/jsQR.js"),
   read("db.js"),
   read("qr-rules.js"),
   read("incentive-rules.js"),
@@ -30,6 +31,7 @@ const script = `const EMBEDDED_CATALOG = ${catalogText.trim()};\n${db}\n${rules}
 const output = html
   .replace('    <link rel="stylesheet" href="./styles.css" />', `    <style>\n${styles}\n    </style>`)
   .replace('    <script src="./vendor/html5-qrcode.min.js"></script>', `    <script>\n${vendor}\n    </script>`)
+  .replace('    <script src="./vendor/jsQR.js"></script>', `    <script>\n${jsQrVendor}\n    </script>`)
   .replace('    <script type="module" src="./app.js"></script>', `    <script>\n${script}\n    </script>`)
   .replace("<title>门店扫码</title>", "<title>门店扫码 - 单文件版</title>");
 
