@@ -72,12 +72,17 @@
           </div>
           <div class="camera-frame">
             <div id="reader" aria-label="二维码相机画面"></div>
+            <div id="detail-reader" aria-hidden="true"></div>
             <div class="scan-window" aria-hidden="true"><i></i></div>
             <div id="camera-placeholder" class="camera-placeholder">
               <div class="camera-icon"></div><p>点击下方按钮开启后置相机</p>
             </div>
           </div>
           <div id="scan-feedback" class="feedback neutral" role="status">等待扫码</div>
+          <label id="camera-picker" class="camera-picker" hidden>
+            <span>选择摄像头</span>
+            <select id="camera-select"></select>
+          </label>
           <div class="scanner-actions">
             <button id="camera-button" class="primary-button" type="button">开启相机扫码</button>
             <button id="capture-button" class="secondary-button" type="button">拍照识别</button>
@@ -159,6 +164,7 @@
     </aside>
 
     <script src="./vendor/html5-qrcode.min.js"></script>
+    <script src="./vendor/jsQR.js"></script>
     <script type="module" src="./app.js"></script>
   </body>
 </html>
